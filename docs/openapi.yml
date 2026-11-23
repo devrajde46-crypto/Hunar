@@ -1,0 +1,1389 @@
+openapi: 3.0.3
+info:
+  title: Vocational Trainer API
+  version: 1.0.0
+  description: API documentation for Vocational Trainer
+paths:
+  /api/v1/auth/login/:
+    post:
+      operationId: auth_login_create
+      summary: Sign in and obtain JWT access and refresh tokens
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: JWT token pair and user profile
+        '400':
+          description: Invalid credentials or deactivated account
+  /api/v1/auth/logout/:
+    post:
+      operationId: auth_logout_create
+      summary: Blacklist refresh token on logout
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Logout'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Logout'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Logout'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: Token blacklisted successfully
+        '400':
+          description: Invalid or expired token
+  /api/v1/auth/me/:
+    get:
+      operationId: auth_me_retrieve
+      summary: Get currently authenticated user profile
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+  /api/v1/auth/register/:
+    post:
+      operationId: auth_register_create
+      summary: Register a new learner account
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Register'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Register'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+          description: ''
+        '400':
+          description: Validation error
+  /api/v1/auth/token/refresh/:
+    post:
+      operationId: auth_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/v1/courses/modules/:
+    get:
+      operationId: courses_modules_list
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedModuleList'
+          description: ''
+    post:
+      operationId: courses_modules_create
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Module'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Module'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Module'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Module'
+          description: ''
+  /api/v1/courses/modules/{id}/:
+    get:
+      operationId: courses_modules_retrieve
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Module.
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Module'
+          description: ''
+    put:
+      operationId: courses_modules_update
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Module.
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Module'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Module'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Module'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Module'
+          description: ''
+    patch:
+      operationId: courses_modules_partial_update
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Module.
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedModule'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedModule'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedModule'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Module'
+          description: ''
+    delete:
+      operationId: courses_modules_destroy
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Module.
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/courses/procedures/:
+    get:
+      operationId: courses_procedures_list
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProcedureListList'
+          description: ''
+    post:
+      operationId: courses_procedures_create
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcedureDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProcedureDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProcedureDetail'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcedureDetail'
+          description: ''
+  /api/v1/courses/procedures/{id}/:
+    get:
+      operationId: courses_procedures_retrieve
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Procedure.
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcedureDetail'
+          description: ''
+    put:
+      operationId: courses_procedures_update
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Procedure.
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcedureDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProcedureDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProcedureDetail'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcedureDetail'
+          description: ''
+    patch:
+      operationId: courses_procedures_partial_update
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Procedure.
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProcedureDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProcedureDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProcedureDetail'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcedureDetail'
+          description: ''
+    delete:
+      operationId: courses_procedures_destroy
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Procedure.
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/courses/steps/:
+    get:
+      operationId: courses_steps_list
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProcedureStepList'
+          description: ''
+    post:
+      operationId: courses_steps_create
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcedureStep'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProcedureStep'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProcedureStep'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcedureStep'
+          description: ''
+  /api/v1/courses/steps/{id}/:
+    get:
+      operationId: courses_steps_retrieve
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Procedure Step.
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcedureStep'
+          description: ''
+    put:
+      operationId: courses_steps_update
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Procedure Step.
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcedureStep'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProcedureStep'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProcedureStep'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcedureStep'
+          description: ''
+    patch:
+      operationId: courses_steps_partial_update
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Procedure Step.
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProcedureStep'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProcedureStep'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProcedureStep'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcedureStep'
+          description: ''
+    delete:
+      operationId: courses_steps_destroy
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Procedure Step.
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/courses/trades/:
+    get:
+      operationId: courses_trades_list
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTradeList'
+          description: ''
+    post:
+      operationId: courses_trades_create
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trade'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Trade'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Trade'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trade'
+          description: ''
+  /api/v1/courses/trades/{id}/:
+    get:
+      operationId: courses_trades_retrieve
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Trade.
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trade'
+          description: ''
+    put:
+      operationId: courses_trades_update
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Trade.
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trade'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Trade'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Trade'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trade'
+          description: ''
+    patch:
+      operationId: courses_trades_partial_update
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Trade.
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTrade'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTrade'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTrade'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trade'
+          description: ''
+    delete:
+      operationId: courses_trades_destroy
+      description: |-
+        Base viewset enforcing that logged-in users only access content from their own institution.
+        Superusers have platform-wide access.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Trade.
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    DifficultyEnum:
+      enum:
+      - BEGINNER
+      - INTERMEDIATE
+      - ADVANCED
+      type: string
+      description: |-
+        * `BEGINNER` - Beginner
+        * `INTERMEDIATE` - Intermediate
+        * `ADVANCED` - Advanced
+    InstitutionSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        code:
+          type: string
+          maxLength: 50
+      required:
+      - code
+      - id
+      - name
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - password
+      - username
+    Logout:
+      type: object
+      properties:
+        refresh:
+          type: string
+      required:
+      - refresh
+    Module:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        trade:
+          type: string
+          format: uuid
+        title:
+          type: string
+          maxLength: 200
+        sequence_order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          default: 1
+        description:
+          type: string
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - title
+      - trade
+    PaginatedModuleList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Module'
+    PaginatedProcedureListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcedureList'
+    PaginatedProcedureStepList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcedureStep'
+    PaginatedTradeList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Trade'
+    PatchedModule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        trade:
+          type: string
+          format: uuid
+        title:
+          type: string
+          maxLength: 200
+        sequence_order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          default: 1
+        description:
+          type: string
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedProcedureDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        procedure_code:
+          type: string
+          maxLength: 50
+        title:
+          type: string
+          maxLength: 255
+        module:
+          type: string
+          format: uuid
+        difficulty:
+          $ref: '#/components/schemas/DifficultyEnum'
+        estimated_duration_minutes:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        description:
+          type: string
+        safety_instructions:
+          type: string
+        required_tools: {}
+        is_active:
+          type: boolean
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcedureStep'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedProcedureStep:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        procedure:
+          type: string
+          format: uuid
+        step_number:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        step_code:
+          type: string
+          maxLength: 50
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+        expected_tool:
+          type: string
+          maxLength: 150
+        visual_evidence_cue:
+          type: string
+        is_safety_critical:
+          type: boolean
+        common_mistakes:
+          type: string
+        hold_duration_seconds:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedTrade:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        code:
+          type: string
+          maxLength: 20
+        description:
+          type: string
+        institution:
+          type: string
+          format: uuid
+          readOnly: true
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    ProcedureDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        procedure_code:
+          type: string
+          maxLength: 50
+        title:
+          type: string
+          maxLength: 255
+        module:
+          type: string
+          format: uuid
+        difficulty:
+          $ref: '#/components/schemas/DifficultyEnum'
+        estimated_duration_minutes:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        description:
+          type: string
+        safety_instructions:
+          type: string
+        required_tools: {}
+        is_active:
+          type: boolean
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcedureStep'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - description
+      - id
+      - module
+      - procedure_code
+      - safety_instructions
+      - steps
+      - title
+    ProcedureList:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        procedure_code:
+          type: string
+          maxLength: 50
+        title:
+          type: string
+          maxLength: 255
+        difficulty:
+          $ref: '#/components/schemas/DifficultyEnum'
+        estimated_duration_minutes:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        total_steps:
+          type: integer
+          readOnly: true
+        safety_critical_steps_count:
+          type: integer
+          readOnly: true
+        is_active:
+          type: boolean
+      required:
+      - id
+      - procedure_code
+      - safety_critical_steps_count
+      - title
+      - total_steps
+    ProcedureStep:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        procedure:
+          type: string
+          format: uuid
+        step_number:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        step_code:
+          type: string
+          maxLength: 50
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+        expected_tool:
+          type: string
+          maxLength: 150
+        visual_evidence_cue:
+          type: string
+        is_safety_critical:
+          type: boolean
+        common_mistakes:
+          type: string
+        hold_duration_seconds:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - description
+      - id
+      - procedure
+      - step_code
+      - step_number
+      - title
+      - visual_evidence_cue
+    Register:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+        first_name:
+          type: string
+          default: ''
+          maxLength: 150
+        last_name:
+          type: string
+          default: ''
+          maxLength: 150
+        trainee_id_number:
+          type: string
+          default: ''
+          maxLength: 100
+        institution_code:
+          type: string
+          maxLength: 50
+        consent:
+          $ref: '#/components/schemas/RegisterConsent'
+      required:
+      - email
+      - institution_code
+      - password
+      - username
+    RegisterConsent:
+      type: object
+      properties:
+        consent_version:
+          type: string
+          default: v1.0-2026
+          maxLength: 20
+        is_granted:
+          type: boolean
+          default: true
+    RoleEnum:
+      enum:
+      - LEARNER
+      - TRAINER
+      - INSTITUTION_ADMIN
+      - SUPER_ADMIN
+      type: string
+      description: |-
+        * `LEARNER` - Learner
+        * `TRAINER` - Trainer
+        * `INSTITUTION_ADMIN` - Institution Admin
+        * `SUPER_ADMIN` - Super Admin
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    Trade:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        code:
+          type: string
+          maxLength: 20
+        description:
+          type: string
+        institution:
+          type: string
+          format: uuid
+          readOnly: true
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - code
+      - created_at
+      - id
+      - institution
+      - name
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        email:
+          type: string
+          format: email
+          readOnly: true
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          readOnly: true
+        first_name:
+          type: string
+          readOnly: true
+        last_name:
+          type: string
+          readOnly: true
+        phone_number:
+          type: string
+          readOnly: true
+        trainee_id_number:
+          type: string
+          readOnly: true
+        institution:
+          allOf:
+          - $ref: '#/components/schemas/InstitutionSummary'
+          readOnly: true
+        is_active:
+          type: boolean
+          readOnly: true
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - date_joined
+      - email
+      - first_name
+      - id
+      - institution
+      - is_active
+      - last_name
+      - phone_number
+      - role
+      - trainee_id_number
+      - username
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
