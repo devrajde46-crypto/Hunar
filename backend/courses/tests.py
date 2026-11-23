@@ -83,7 +83,9 @@ class CoursesModelTests(TestCase):
         self.assertFalse(step2.is_safety_critical)
 
     def test_unique_step_order_constraint(self):
-        ProcedureStep.objects.create(
+        from django.db import transaction
+
+        step1 = ProcedureStep.objects.create(
             procedure=self.procedure,
             step_number=1,
             step_code="SWS-01",
@@ -92,16 +94,48 @@ class CoursesModelTests(TestCase):
             visual_evidence_cue="Evidence 1",
             is_safety_critical=True,
         )
+        # Creating a second active step with the same step_number raises IntegrityError
         with self.assertRaises(IntegrityError):
-            ProcedureStep.objects.create(
-                procedure=self.procedure,
-                step_number=1,
-                step_code="SWS-01-DUP",
-                title="Duplicate Step Number",
-                description="Duplicate order number step",
-                visual_evidence_cue="Evidence duplicate",
-                is_safety_critical=False,
-            )
+            with transaction.atomic():
+                ProcedureStep.objects.create(
+                    procedure=self.procedure,
+                    step_number=1,
+                    step_code="SWS-01-DUP",
+                    title="Duplicate Step Number",
+                    description="Duplicate order number step",
+                    visual_evidence_cue="Evidence duplicate",
+                    is_safety_critical=False,
+                )
+
+        # Deactivating step1 frees up step_number 1 for reuse
+        step1.is_active = False
+        step1.save()
+
+        # Re-using step_number 1 now succeeds
+        replacement_step = ProcedureStep.objects.create(
+            procedure=self.procedure,
+            step_number=1,
+            step_code="SWS-01-NEW",
+            title="Replacement Step One",
+            description="Replaced active step",
+            visual_evidence_cue="Evidence replacement",
+            is_safety_critical=True,
+        )
+        self.assertEqual(replacement_step.step_number, 1)
+        self.assertTrue(replacement_step.is_active)
+
+        # A third active step with step_number 1 still raises IntegrityError
+        with self.assertRaises(IntegrityError):
+            with transaction.atomic():
+                ProcedureStep.objects.create(
+                    procedure=self.procedure,
+                    step_number=1,
+                    step_code="SWS-01-THIRD",
+                    title="Third Step One",
+                    description="Collision with active replacement",
+                    visual_evidence_cue="Evidence 3",
+                    is_safety_critical=False,
+                )
 
 
 class CourseAPITests(APITestCase):
@@ -477,9 +511,9 @@ class CourseAPITests(APITestCase):
         step_codes = [s['step_code'] for s in s_res.json()['results']]
         self.assertNotIn("ARC-01", step_codes)
 
-    def test_step_deletion_behavior_hard_delete_when_no_scores(self):
-        # Create a fresh step without scores
-        orphan_step = ProcedureStep.objects.create(
+    def test_step_deletion_behavior_deactivates_step(self):
+        # Create a fresh step
+        test_step = ProcedureStep.objects.create(
             procedure=self.proc_a,
             step_number=99,
             step_code="SWS-99",
@@ -487,16 +521,18 @@ class CourseAPITests(APITestCase):
             description="To be deleted",
             visual_evidence_cue="None",
         )
-        step_id = orphan_step.id
+        step_id = test_step.id
 
         self.client.force_authenticate(user=self.trainer_a)
         res = self.client.delete(reverse('step-detail', args=[step_id]))
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
 
-        # Confirms hard deletion: record is completely removed from database
-        self.assertFalse(ProcedureStep.objects.filter(id=step_id).exists())
+        # Confirms soft deletion / deactivation: record is NOT removed, is_active is False
+        self.assertTrue(ProcedureStep.objects.filter(id=step_id).exists())
+        test_step.refresh_from_db()
+        self.assertFalse(test_step.is_active)
 
-    def test_step_deletion_behavior_409_conflict_when_scores_exist(self):
+    def test_step_deletion_with_existing_scores_safely_deactivates(self):
         from practice.models import PracticeSubmission
         from assessments.models import StepScore
 
@@ -506,7 +542,7 @@ class CourseAPITests(APITestCase):
             learner=self.learner_a,
             processing_status=PracticeSubmission.Status.SCORED,
         )
-        StepScore.objects.create(
+        score = StepScore.objects.create(
             submission=submission,
             procedure_step=self.step_a,
             ai_status=StepScore.AIStatus.CORRECT,
@@ -516,12 +552,65 @@ class CourseAPITests(APITestCase):
         self.client.force_authenticate(user=self.trainer_a)
         res = self.client.delete(reverse('step-detail', args=[self.step_a.id]))
 
-        # Must return 409 Conflict due to PROTECT relationship on StepScore.procedure_step
-        self.assertEqual(res.status_code, status.HTTP_409_CONFLICT)
-        self.assertEqual(res.json()['error']['code'], 'PROTECTED_RESOURCE')
+        # With soft deletion, 409 is no longer triggered; returns 204 No Content
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
 
-        # Verify step still exists in database
-        self.assertTrue(ProcedureStep.objects.filter(id=self.step_a.id).exists())
+        # Verify step still exists in database and is deactivated
+        self.step_a.refresh_from_db()
+        self.assertFalse(self.step_a.is_active)
+
+        # Verify associated StepScore remains intact and linked
+        score.refresh_from_db()
+        self.assertEqual(score.procedure_step, self.step_a)
+
+    def test_deactivated_step_hidden_from_list_detail_and_nested_procedure(self):
+        # Add a second active step to proc_a
+        step2 = ProcedureStep.objects.create(
+            procedure=self.proc_a,
+            step_number=2,
+            step_code="SWS-02",
+            title="Second Step",
+            description="Active step two",
+            visual_evidence_cue="Cue 2",
+            is_safety_critical=False,
+        )
+
+        self.client.force_authenticate(user=self.trainer_a)
+
+        # Deactivate step2
+        del_res = self.client.delete(reverse('step-detail', args=[step2.id]))
+        self.assertEqual(del_res.status_code, status.HTTP_204_NO_CONTENT)
+
+        # 1. Step list does not include deactivated step2
+        list_res = self.client.get(reverse('step-list'))
+        self.assertEqual(list_res.status_code, status.HTTP_200_OK)
+        step_ids = [s['id'] for s in list_res.json()['results']]
+        self.assertIn(str(self.step_a.id), step_ids)
+        self.assertNotIn(str(step2.id), step_ids)
+
+        # 2. Step detail lookup returns 404
+        detail_res = self.client.get(reverse('step-detail', args=[step2.id]))
+        self.assertEqual(detail_res.status_code, status.HTTP_404_NOT_FOUND)
+
+        # 3. Procedure detail nested steps only includes active steps
+        proc_res = self.client.get(reverse('procedure-detail', args=[self.proc_a.procedure_code]))
+        self.assertEqual(proc_res.status_code, status.HTTP_200_OK)
+        proc_data = proc_res.json()
+        self.assertEqual(len(proc_data['steps']), 1)
+        nested_ids = [s['id'] for s in proc_data['steps']]
+        self.assertIn(str(self.step_a.id), nested_ids)
+        self.assertNotIn(str(step2.id), nested_ids)
+
+        # 4. Procedure list reflects only active steps in total_steps count
+        proc_list_res = self.client.get(reverse('procedure-list'))
+        self.assertEqual(proc_list_res.status_code, status.HTTP_200_OK)
+        proc_item = next(p for p in proc_list_res.json()['results'] if p['procedure_code'] == self.proc_a.procedure_code)
+        self.assertEqual(proc_item['total_steps'], 1)
+
+        # 5. Record still exists in the database
+        self.assertTrue(ProcedureStep.objects.filter(id=step2.id).exists())
+        step2.refresh_from_db()
+        self.assertFalse(step2.is_active)
 
     def test_seed_demo_command_idempotency(self):
         from django.core.management import call_command

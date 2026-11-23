@@ -173,12 +173,13 @@ Phase 2 establishes the core Django backend foundation, including custom institu
 | **Docs** | `GET` | `/api/docs/` | Swagger UI interactive documentation | Public |
 | **Docs** | `GET` | `/api/redoc/` | ReDoc interactive documentation | Public |
 
-### 4. Step-Deletion Behavior & Risk Analysis
+### 4. Step-Deletion Behavior & Soft Deactivation
 
-The endpoint `DELETE /api/v1/courses/steps/{id}/` handles step deletion with two distinct behaviors depending on historical data dependencies:
-- **When Step Scores Exist (`409 Conflict`)**: The `StepScore.procedure_step` foreign key specifies `on_delete=models.PROTECT`. If an instructor attempts to delete a step that has already been evaluated in learner submissions, Django raises a `models.ProtectedError`. The custom exception handler intercepts this and returns `HTTP 409 Conflict` with error code `PROTECTED_RESOURCE`. This prevents accidental loss of historical scoring evidence and prevents orphaned score records.
-- **When No Scores Exist (`204 No Content - Hard Delete`)**: Because `ProcedureStep` does not define an `is_active` soft-delete field in the schema, calling `DELETE` executes a physical `instance.delete()`, permanently removing the record from the database.
-- **Identified Risk**: Any draft step deleted prior to assessment recording is permanently lost and cannot be restored via a soft-delete restore flag. If auditing or soft-deletion of steps is required in future releases, an `is_active` boolean field should be added to `ProcedureStep`.
+The endpoint `DELETE /api/v1/courses/steps/{id}/` performs non-destructive soft-deactivation:
+- **Soft Deactivation (`204 No Content`)**: Calling `DELETE` marks the target `ProcedureStep` with `is_active = False`. The database row is fully preserved, safeguarding any associated `StepScore` records and historical evaluation audits.
+- **API Visibility Filtering**: Deactivated steps are automatically hidden from `GET /api/v1/courses/steps/` list and detail endpoints, as well as from the nested `steps` array and `total_steps` / `safety_critical_steps_count` in procedure queries.
+- **Django Admin Visibility**: Deactivated steps remain visible and filterable via the `is_active` filter in the Django administrative interface.
+- **Step Number Re-use**: A partial unique index (`UniqueConstraint(fields=['procedure', 'step_number'], condition=Q(is_active=True))`) enforces ordering uniqueness across active steps only. Deactivating a step frees its sequence position, allowing instructors to assign that step number to a new or replacement active step.
 
 ### 5. Running Automated Tests
 

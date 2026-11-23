@@ -136,6 +136,7 @@ erDiagram
         boolean is_safety_critical
         text common_mistakes
         int hold_duration_seconds
+        boolean is_active
         datetime created_at
     }
 
@@ -358,7 +359,11 @@ Atomic procedural steps evaluated by computer vision within a procedure.
 | `is_safety_critical`| `BOOLEAN`| `NOT NULL`, Default: `FALSE` | Strict gate flag: failure locks pass mark |
 | `common_mistakes`| `TEXT` | `NULL` | Typical trainee failure modes |
 | `hold_duration_seconds`| `INT` | `NOT NULL`, Default: `2` | Inspection hold required for camera focus |
+| `is_active` | `BOOLEAN` | `NOT NULL`, Default: `TRUE` | Soft-deletion flag (inactive steps hidden from API) |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL`, Default: `NOW()` | Timestamp created |
+
+**Constraints & Indexes:**
+- `UniqueConstraint(fields=['procedure_id', 'step_number'], condition=Q(is_active=True))`: Partial unique index ensuring sequential `step_number` uniqueness across active steps while permitting step number re-use after a step is soft-deleted/deactivated.
 
 ---
 

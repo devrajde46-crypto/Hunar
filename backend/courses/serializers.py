@@ -32,6 +32,7 @@ class ProcedureStepSerializer(serializers.ModelSerializer):
             'is_safety_critical',
             'common_mistakes',
             'hold_duration_seconds',
+            'is_active',
             'created_at',
         )
         read_only_fields = ('id', 'created_at')
@@ -56,15 +57,15 @@ class ProcedureListSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(serializers.IntegerField())
     def get_total_steps(self, obj):
-        return obj.steps.count()
+        return obj.steps.filter(is_active=True).count()
 
     @extend_schema_field(serializers.IntegerField())
     def get_safety_critical_steps_count(self, obj):
-        return obj.steps.filter(is_safety_critical=True).count()
+        return obj.steps.filter(is_active=True, is_safety_critical=True).count()
 
 
 class ProcedureDetailSerializer(serializers.ModelSerializer):
-    steps = ProcedureStepSerializer(many=True, read_only=True)
+    steps = serializers.SerializerMethodField()
 
     class Meta:
         model = Procedure
@@ -83,3 +84,8 @@ class ProcedureDetailSerializer(serializers.ModelSerializer):
             'created_at',
         )
         read_only_fields = ('id', 'created_at')
+
+    @extend_schema_field(ProcedureStepSerializer(many=True))
+    def get_steps(self, obj):
+        active_steps = obj.steps.filter(is_active=True).order_by('step_number')
+        return ProcedureStepSerializer(active_steps, many=True, context=self.context).data

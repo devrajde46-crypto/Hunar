@@ -1,5 +1,5 @@
 import uuid
-from django.db.models import ProtectedError
+from django.db.models import ProtectedError, Prefetch
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status, exceptions
 from rest_framework.response import Response
@@ -78,7 +78,9 @@ class ProcedureViewSet(BaseInstitutionScopedViewSet):
         if not user.is_authenticated:
             return Procedure.objects.none()
 
-        qs = Procedure.objects.select_related('module__trade').prefetch_related('steps')
+        qs = Procedure.objects.select_related('module__trade').prefetch_related(
+            Prefetch('steps', queryset=ProcedureStep.objects.filter(is_active=True).order_by('step_number'))
+        )
         if not user.is_superuser:
             if user.institution_id:
                 qs = qs.filter(module__trade__institution_id=user.institution_id, is_active=True)
@@ -143,14 +145,15 @@ class ProcedureStepViewSet(BaseInstitutionScopedViewSet):
         user = self.request.user
         if not user.is_authenticated:
             return ProcedureStep.objects.none()
+        qs = ProcedureStep.objects.filter(is_active=True)
         if user.is_superuser:
-            return ProcedureStep.objects.all()
+            return qs
         if user.institution_id:
-            return ProcedureStep.objects.filter(
+            return qs.filter(
                 procedure__module__trade__institution_id=user.institution_id,
                 procedure__is_active=True,
             )
-        return ProcedureStep.objects.filter(
+        return qs.filter(
             procedure__module__trade__institution__isnull=True,
             procedure__is_active=True,
         )

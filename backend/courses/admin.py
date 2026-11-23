@@ -11,6 +11,7 @@ class ProcedureStepInline(admin.TabularInline):
         'title',
         'expected_tool',
         'is_safety_critical',
+        'is_active',
         'hold_duration_seconds',
     )
     ordering = ('step_number',)
@@ -57,8 +58,9 @@ class ProcedureStepAdmin(admin.ModelAdmin):
         'step_code',
         'title',
         'is_safety_critical',
+        'is_active',
         'expected_tool',
     )
-    list_filter = ('procedure', 'is_safety_critical')
+    list_filter = ('procedure', 'is_safety_critical', 'is_active')
     search_fields = ('step_code', 'title', 'description', 'visual_evidence_cue')
     ordering = ('procedure', 'step_number')

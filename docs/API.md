@@ -339,6 +339,16 @@ sequenceDiagram
 
 ---
 
+#### 3.3.3 Deactivate Procedure Step (`DELETE /api/v1/courses/steps/{id}/`)
+- **Permission:** `IsCourseContentManagerOrReadOnly` (Trainer or Institution Admin)
+- **Behavior:** Soft-deactivates the step (`is_active = false`) and returns `204 No Content`.
+  - Inactive steps are automatically filtered out from `GET /api/v1/courses/steps/` list and detail responses, as well as from the nested `steps` array of `GET /api/v1/courses/procedures/{procedure_code}/`.
+  - Inactive steps remain stored in the database, preserving all child `StepScore` linkages and audit history without data loss.
+  - Re-using step numbers: Because step ordering is enforced via a partial unique index (`is_active = true`), deactivating a step frees its `step_number` for active re-use within the same procedure.
+- **Response `204 No Content`**
+
+---
+
 ### 3.4 Practice & Video Submissions (`/api/v1/practice/`)
 
 #### 3.4.1 Create Practice Video Submission (`POST /api/v1/practice/submissions/`)

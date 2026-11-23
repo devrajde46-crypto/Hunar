@@ -103,6 +103,7 @@ class ProcedureStep(models.Model):
     is_safety_critical = models.BooleanField(default=False)
     common_mistakes = models.TextField(blank=True, default='')
     hold_duration_seconds = models.PositiveIntegerField(default=2)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -111,7 +112,8 @@ class ProcedureStep(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['procedure', 'step_number'],
-                name='unique_procedure_step_order',
+                condition=models.Q(is_active=True),
+                name='unique_active_procedure_step_order',
             ),
         ]
         verbose_name = _('Procedure Step')
