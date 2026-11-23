@@ -173,8 +173,8 @@ SIMPLE_JWT = {
 
 # Spectacular documentation configuration
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Vocational Trainer API',
-    'DESCRIPTION': 'API documentation for Vocational Trainer',
+    'TITLE': 'Hunar API',
+    'DESCRIPTION': 'Hunar: practice, feedback, and trainer review for vocational skills',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }

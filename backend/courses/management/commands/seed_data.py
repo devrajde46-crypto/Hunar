@@ -1,5 +1,5 @@
 """
-Seed data definitions for AI Vocational Skills Trainer demo dataset.
+Seed data definitions for Hunar demo dataset.
 Based on docs/phase1/procedures/ (PROC-ELEC-01 through 04).
 """
 

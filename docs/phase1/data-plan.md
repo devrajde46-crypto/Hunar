@@ -1,6 +1,6 @@
 # Phase 1 Data Plan: Video Dataset Acquisition, Labeling & Benchmarking
 
-**Project:** AI Vocational Skills Trainer  
+**Project:** Hunar  
 **Document Version:** 1.0  
 **Target Trade:** Basic Electrical Wiring (Switch, Socket & Dead Circuit Testing)  
 

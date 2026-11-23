@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Vocational Trainer API
+  title: Hunar API
   version: 1.0.0
-  description: API documentation for Vocational Trainer
+  description: 'Hunar: practice, feedback, and trainer review for vocational skills'
 paths:
   /api/v1/auth/login/:
     post:

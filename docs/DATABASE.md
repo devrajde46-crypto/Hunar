@@ -1,6 +1,6 @@
 # Relational Database Schema Specification
 
-**Project Name:** AI Vocational Skills Trainer  
+**Project Name:** Hunar  
 **Document Version:** 1.0 (Phase 2 Technical Architecture)  
 **Status:** Approved for Implementation (Design Specification Only — No Migrations in Phase 1)  
 **Database Engine:** PostgreSQL 16+  

@@ -1,5 +1,5 @@
 """
-Management command to seed initial demo data for AI Vocational Skills Trainer.
+Management command to seed initial demo data for Hunar.
 Populates Demo ITI, Electrical Wiring trade, Domestic Wiring module,
 and 4 standard electrical procedures with 39 steps from docs/phase1/procedures/.
 
@@ -25,7 +25,7 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
-        self.stdout.write('Seeding demo data for AI Vocational Skills Trainer...')
+        self.stdout.write('Seeding demo data for Hunar...')
 
         # 1. Institution
         inst_defaults = {k: v for k, v in INSTITUTION_DATA.items() if k != 'code'}

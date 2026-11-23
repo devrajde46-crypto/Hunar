@@ -1,6 +1,6 @@
 # Project Implementation Roadmap
 
-**Project Name:** AI Vocational Skills Trainer  
+**Project Name:** Hunar  
 **Document Version:** 1.0  
 **Status:** Approved Active Roadmap  
 **Total Estimated Timeline:** 
@@ -16,7 +16,7 @@ The implementation roadmap structures the engineering effort into sequential, mi
 
 ```mermaid
 gantt
-    title AI Vocational Skills Trainer - Implementation Horizon
+    title Hunar - Implementation Horizon
     dateFormat  YYYY-MM-DD
     section Foundation
     Phase 0: Environment Setup (Complete)       :done,    p0, 2026-10-01, 2026-10-14

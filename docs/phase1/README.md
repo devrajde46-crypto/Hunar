@@ -1,6 +1,6 @@
 # Phase 1 Documentation Index: Scope, Design & Data Plan
 
-**Project:** AI Vocational Skills Trainer  
+**Project:** Hunar  
 **Phase:** Phase 1 (MVP Foundation, Trade Scoping, and Architecture Design)  
 **Trade Focus:** Basic Electrical Wiring (Switch, Socket & Dead Circuit Verification)  
 

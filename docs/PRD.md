@@ -1,6 +1,6 @@
 # Product Requirements Document (PRD)
 
-**Project Name:** AI Vocational Skills Trainer  
+**Project Name:** Hunar  
 **Document Version:** 1.0 (Phase 1 / Phase 2 Architecture Alignment)  
 **Status:** Approved for Implementation Planning  
 **Target Trade (MVP):** Basic Electrical Wiring (Domestic / Light Commercial)  
@@ -17,7 +17,7 @@ Vocational education and training in technical crafts (such as electrician trade
 3. **Severe Safety Liabilities:** In electrical craftsmanship, procedural sequencing is life-critical. Omitting de-energized isolation checks, touching conductors without proving the board is dead, omitting protective earthing, or routing the phase supply directly to switched socket outputs creates immediate risks of electrical shock, arc flashes, and workshop fire hazards.
 4. **Subjective, Unstandardized, and Unaudited Assessments:** Conventional workshop grading relies on quick, unstandardized visual inspections at the end of class. There is no persistent, verifiable evidence or audit trail demonstrating how a trainee executed each physical step, whether safety checks were adhered to, or how competency was validated.
 
-The **AI Vocational Skills Trainer** addresses these challenges by delivering an **asynchronous, video-assisted step-verification platform**. Trainees record their hands-on workbench exercises using standard budget smartphones. The system analyzes the video using an ensemble of pretrained computer vision models coupled with a deterministic, rule-based scoring engine. It verifies procedural steps, detects safety violations, flags timestamped defects, and triages submissions into an instructor queue—enabling instructors to deliver rapid, objective, auditable, and safety-gated practical assessments in under two minutes per student.
+**Hunar** addresses these challenges by delivering an **asynchronous, video-assisted step-verification platform**. Trainees record their hands-on workbench exercises using standard budget smartphones. The system analyzes the video using an ensemble of pretrained computer vision models coupled with a deterministic, rule-based scoring engine. It verifies procedural steps, detects safety violations, flags timestamped defects, and triages submissions into an instructor queue—enabling instructors to deliver rapid, objective, auditable, and safety-gated practical assessments in under two minutes per student.
 
 ---
 

@@ -1,6 +1,6 @@
 # System Architecture Specification
 
-**Project Name:** AI Vocational Skills Trainer  
+**Project Name:** Hunar  
 **Document Version:** 1.0 (Phase 2 Technical Design)  
 **Status:** Approved for Implementation Architecture  
 **Backend:** Django 6.1 + Django REST Framework + PostgreSQL 16+ + SimpleJWT + Celery 5.4 + Redis 7  
@@ -13,7 +13,7 @@
 
 ## 1. System Overview
 
-The **AI Vocational Skills Trainer** is an asynchronous, video-assisted skills evaluation and instructional platform designed for technical vocational training institutions (e.g., Industrial Training Institutes [ITIs] and polytechnics). The architecture decouples high-bandwidth, variable-duration video capture on budget client devices from computationally intensive multi-stage computer vision inference and human instructor moderation.
+**Hunar** is an asynchronous, video-assisted skills evaluation and instructional platform designed for technical vocational training institutions (e.g., Industrial Training Institutes [ITIs] and polytechnics). The architecture decouples high-bandwidth, variable-duration video capture on budget client devices from computationally intensive multi-stage computer vision inference and human instructor moderation.
 
 ### Architectural Principles:
 1. **Asynchronous Non-Blocking Processing:** Video uploads and AI inference run out-of-band via Celery background task workers backed by Redis, keeping the DRF HTTP API responsive.

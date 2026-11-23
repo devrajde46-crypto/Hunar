@@ -2,7 +2,7 @@
 
 # Learner Video Recording & Data Privacy Consent Policy
 
-**Project:** AI Vocational Skills Trainer  
+**Project:** Hunar  
 **Applies To:** Vocational trainees, instructors, and partner technical institutions  
 **Version:** 1.0 (Draft)  
 

@@ -1,6 +1,6 @@
 # AI Agent Operating Guidelines & Repository Rules
 
-**Project:** AI Vocational Skills Trainer  
+**Project:** Hunar  
 **Target Platform:** Windows 11 / Windows Server (PowerShell)  
 **Stack:** Django 6.1 (DRF, PostgreSQL, SimpleJWT, Celery/Redis) + Next.js 16 (React 19, TypeScript, Tailwind CSS 4, Axios)  
 **Applicability:** Mandatory for all AI coding agents, autonomous subagents, and human contributors operating in this repository.

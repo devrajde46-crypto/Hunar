@@ -1,6 +1,6 @@
 # REST API Specification
 
-**Project Name:** AI Vocational Skills Trainer  
+**Project Name:** Hunar  
 **Document Version:** 1.0 (Phase 2 Technical Architecture)  
 **Status:** Approved for Implementation (Design Only)  
 **Base URL:** `http://127.0.0.1:8000/api/v1/`  

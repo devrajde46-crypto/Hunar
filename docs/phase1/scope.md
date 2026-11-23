@@ -1,6 +1,6 @@
 # Phase 1: Scope & Objectives
 
-**Project Name:** AI Vocational Skills Trainer  
+**Project Name:** Hunar  
 **Document Version:** 1.0 (Phase 1 MVP)  
 **Status:** Approved for MVP Architecture  
 **Target Trade:** Basic Electrical Wiring (Domestic / Light Commercial)  
@@ -16,7 +16,7 @@ Vocational education and training in technical crafts (such as electrician trade
 3. **Safety Hazards:** In electrical wiring, procedural sequence is life-critical. Touching conductors before verifying that the circuit is dead or omitting grounding conductors creates immediate electrocution and fire hazards.
 4. **Subjective & Unrecorded Assessments:** Practical assessments rely on brief, unstandardized visual inspections at the end of class with no persistent audit trail of how the student executed each physical step.
 
-The **AI Vocational Skills Trainer** solves this by providing automated, asynchronous step-by-step verification of recorded practice attempts. Trainees record their physical workbench exercises using standard smartphones; the AI pipeline analyzes the video, detects procedural and safety-critical steps, timestamps errors, and assists human trainers in delivering fast, objective, and auditable feedback.
+**Hunar** solves this by providing automated, asynchronous step-by-step verification of recorded practice attempts. Trainees record their physical workbench exercises using standard smartphones; the AI pipeline analyzes the video, detects procedural and safety-critical steps, timestamps errors, and assists human trainers in delivering fast, objective, and auditable feedback.
 
 ---
 

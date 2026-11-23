@@ -1,6 +1,6 @@
 # Proposed Django Data Model (Phase 2 Architecture)
 
-**Project:** AI Vocational Skills Trainer  
+**Project:** Hunar  
 **Document Status:** Architecture Design Specification (Design Only)  
 **Notice:** **Design only: do NOT create any Django models or migrations during Phase 1.**
 

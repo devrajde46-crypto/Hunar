@@ -1,6 +1,6 @@
 # UI Screen Specifications & Stitch AI Generation Prompts
 
-**Project:** AI Vocational Skills Trainer  
+**Project:** Hunar  
 **Document Status:** Approved for Frontend Design (Phase 2)  
 **Style System:** Clean, mobile-first, accessible (WCAG AA), high contrast, professional vocational education aesthetic (Tailwind Slate / Indigo / Emerald / Rose palette).
 
@@ -26,11 +26,11 @@ When generating UI prototypes using Stitch AI or React Tailwind components, use 
 
 ### Screen 1: Login
 - **Purpose:** Secure authentication for learners, trainers, and administrators.
-- **Key Elements:** App logo and title ("AI Vocational Skills Trainer"), email/username input, password input with show/hide toggle, role indicator helper, "Sign In" button, "Forgot Password" link, link to Register.
+- **Key Elements:** App logo and title ("Hunar"), email/username input, password input with show/hide toggle, role indicator helper, "Sign In" button, "Forgot Password" link, link to Register.
 - **User Actions:** Enter credentials, submit form, navigate to registration or password recovery.
 - **Stitch AI Prompt:**
 ```text
-Create a clean, mobile-first Login screen for the "AI Vocational Skills Trainer" web app using Tailwind CSS. Use a minimalist slate-50 background. Centered card on a subtle white background with rounded-2xl corners, soft drop shadow, and a 1px slate-200 border. At the top, include an electrical bolt icon inside an indigo-100 rounded badge, followed by the title "Vocational Trainer" in font-bold text-slate-900 and subtitle "Sign in to your training portal" in text-slate-500. Include form fields for Email Address and Password with clean slate-100 borders and focus:ring-2 focus:ring-indigo-600. Add a password visibility toggle icon. Include a prominent full-width "Sign In" button (bg-indigo-700 text-white font-medium py-3 rounded-xl hover:bg-indigo-800 transition). Below, include links for "Forgot password?" and "Don't have an account? Register with your Institution ID".
+Create a clean, mobile-first Login screen for the "Hunar" web app using Tailwind CSS. Use a minimalist slate-50 background. Centered card on a subtle white background with rounded-2xl corners, soft drop shadow, and a 1px slate-200 border. At the top, include an electrical bolt icon inside an indigo-100 rounded badge, followed by the title "Vocational Trainer" in font-bold text-slate-900 and subtitle "Sign in to your training portal" in text-slate-500. Include form fields for Email Address and Password with clean slate-100 borders and focus:ring-2 focus:ring-indigo-600. Add a password visibility toggle icon. Include a prominent full-width "Sign In" button (bg-indigo-700 text-white font-medium py-3 rounded-xl hover:bg-indigo-800 transition). Below, include links for "Forgot password?" and "Don't have an account? Register with your Institution ID".
 ```
 
 ---
@@ -41,7 +41,7 @@ Create a clean, mobile-first Login screen for the "AI Vocational Skills Trainer"
 - **User Actions:** Fill personal and institutional details, acknowledge consent, submit registration.
 - **Stitch AI Prompt:**
 ```text
-Create a mobile-friendly Registration screen for the "AI Vocational Skills Trainer" using Tailwind CSS. Clean, spacious layout on a slate-50 background. Include a top back-arrow button to return to Login. Title: "Create Trainee Account" with subtitle "Join your institution's electrical workshop portal". Form fields: Full Name, Trainee Roll Number, Institutional Email, and Password with validation indicators. Include an Institution dropdown selector and a pre-selected badge for Trade: "Electrician (Basic Wiring)". Include a highlighted card with an info icon containing a checkbox: "I agree to the Video Recording & Practice Evaluation Consent Policy" with a modal link to read the full policy. A primary full-width button "Register & Start Training" in bg-indigo-700 with rounded-xl padding.
+Create a mobile-friendly Registration screen for the "Hunar" using Tailwind CSS. Clean, spacious layout on a slate-50 background. Include a top back-arrow button to return to Login. Title: "Create Trainee Account" with subtitle "Join your institution's electrical workshop portal". Form fields: Full Name, Trainee Roll Number, Institutional Email, and Password with validation indicators. Include an Institution dropdown selector and a pre-selected badge for Trade: "Electrician (Basic Wiring)". Include a highlighted card with an info icon containing a checkbox: "I agree to the Video Recording & Practice Evaluation Consent Policy" with a modal link to read the full policy. A primary full-width button "Register & Start Training" in bg-indigo-700 with rounded-xl padding.
 ```
 
 ---
@@ -52,7 +52,7 @@ Create a mobile-friendly Registration screen for the "AI Vocational Skills Train
 - **User Actions:** Tap to view procedures, resume current exercise, view detailed feedback on past attempts.
 - **Stitch AI Prompt:**
 ```text
-Create a modern mobile-first Learner Dashboard for the "AI Vocational Skills Trainer" in Tailwind CSS. Top app bar with learner avatar, notification bell, and greeting "Hello, Devraj" with subtitle "Batch ELEC-2026 • Govt ITI". Top stat row with 3 cards: "Procedures Completed: 3/4", "Safety Score: 100%", and "Pending Review: 1". Featured hero card with an indigo-gradient background: "Active Module: Switch & Socket Installation", showing an 75% progress bar and a white CTA button "Continue Procedure". Below, section titled "Recent Practice Submissions" displaying a list of 3 items: each item shows procedure title, date, thumbnail preview, and a pill badge: one green "Pass (AI Verified)", one amber "Trainer Review Pending", and one red "Safety Violation Detected". Bottom navigation bar with 4 tabs: Dashboard, Procedures, Progress, Profile.
+Create a modern mobile-first Learner Dashboard for the "Hunar" in Tailwind CSS. Top app bar with learner avatar, notification bell, and greeting "Hello, Devraj" with subtitle "Batch ELEC-2026 • Govt ITI". Top stat row with 3 cards: "Procedures Completed: 3/4", "Safety Score: 100%", and "Pending Review: 1". Featured hero card with an indigo-gradient background: "Active Module: Switch & Socket Installation", showing an 75% progress bar and a white CTA button "Continue Procedure". Below, section titled "Recent Practice Submissions" displaying a list of 3 items: each item shows procedure title, date, thumbnail preview, and a pill badge: one green "Pass (AI Verified)", one amber "Trainer Review Pending", and one red "Safety Violation Detected". Bottom navigation bar with 4 tabs: Dashboard, Procedures, Progress, Profile.
 ```
 
 ---
@@ -90,7 +90,7 @@ Create an accessible mobile Procedure Detail screen for "PROC-ELEC-02: Switch-Co
 - **User Actions:** Review filming tips, choose video file from device, start upload, monitor progress.
 - **Stitch AI Prompt:**
 ```text
-Create a mobile-first Video Upload screen for the "AI Vocational Skills Trainer" using Tailwind CSS. Header: "Submit Practice Recording" for PROC-ELEC-02. Top collapsible accordion titled "Quick Filming Checklist" with 4 checked items: "Landscape mode", "Phone mounted on stand", "Terminals brightly lit", "Uncut 5-8 min video". Central interactive upload zone with a dashed indigo-300 border, cloud upload icon, text "Tap to record or select MP4/WebM video", and helper text "Max size: 250MB • 1080p recommended". Below the upload zone, show an uploaded video card preview with filename "socket_practice_devraj.mp4", size "84.2 MB", duration "6m 12s", and a green checkmark. An active upload progress bar at 100% with text "Upload complete. Ready for analysis". A prominent primary button "Run AI Step Verification" in bg-indigo-700 text-white py-3.5 rounded-xl.
+Create a mobile-first Video Upload screen for the "Hunar" using Tailwind CSS. Header: "Submit Practice Recording" for PROC-ELEC-02. Top collapsible accordion titled "Quick Filming Checklist" with 4 checked items: "Landscape mode", "Phone mounted on stand", "Terminals brightly lit", "Uncut 5-8 min video". Central interactive upload zone with a dashed indigo-300 border, cloud upload icon, text "Tap to record or select MP4/WebM video", and helper text "Max size: 250MB • 1080p recommended". Below the upload zone, show an uploaded video card preview with filename "socket_practice_devraj.mp4", size "84.2 MB", duration "6m 12s", and a green checkmark. An active upload progress bar at 100% with text "Upload complete. Ready for analysis". A prominent primary button "Run AI Step Verification" in bg-indigo-700 text-white py-3.5 rounded-xl.
 ```
 
 ---

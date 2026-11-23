@@ -1,6 +1,6 @@
-# AI Vocational Skills Trainer
+# Hunar
 
-An intelligent, interactive learning platform designed to train vocational skills with an AI-assisted curriculum, practice sessions, and skill assessments.
+Hunar: practice, feedback, and trainer review for vocational skills.
 
 ## Tech Stack
 
