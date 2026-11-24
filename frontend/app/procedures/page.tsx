@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import AppShell from "@/components/AppShell";
 import Card from "@/components/Card";
-import SafetyBadge from "@/components/SafetyBadge";
+import DraftNotice from "@/components/DraftNotice";
 import { courseApi } from "@/lib/api";
 import { Procedure } from "@/lib/types";
 
@@ -120,6 +120,9 @@ export default function ProcedureListPage() {
           </div>
         </div>
 
+        {/* DraftNotice must stay until a trainer-approved flag exists in the data */}
+        <DraftNotice className="mb-4" />
+
         {/* Loading State */}
         {isLoading && (
           <div className="rounded-xl border border-card-border bg-white p-16 text-center flex flex-col items-center justify-center">
@@ -177,10 +180,6 @@ export default function ProcedureListPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {procedures.map((proc) => {
               const code = proc.procedure_code || proc.id;
-              const hasSafety =
-                typeof proc.safety_critical_steps_count === "number"
-                  ? proc.safety_critical_steps_count > 0
-                  : true;
 
               return (
                 <Card
@@ -190,14 +189,13 @@ export default function ProcedureListPage() {
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-2">
-                      <span className="font-mono text-2xs font-bold text-muted bg-cream border border-card-border px-2 py-0.5 rounded">
+                      <span className="font-mono text-2xs font-bold text-muted bg-cream border border-card-border px-2 py-0.5 rounded whitespace-nowrap shrink-0">
                         {proc.procedure_code || "PROC"}
                       </span>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-2xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-link-blue border border-blue-200">
+                      <div className="flex flex-wrap items-center justify-end gap-1.5">
+                        <span className="text-2xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-link-blue border border-blue-200 whitespace-nowrap shrink-0">
                           {proc.difficulty}
                         </span>
-                        {hasSafety && <SafetyBadge size="sm" />}
                       </div>
                     </div>
 
@@ -215,16 +213,18 @@ export default function ProcedureListPage() {
                   </div>
 
                   <div className="mt-4 pt-3 border-t border-card-border flex items-center justify-between text-xs text-muted">
-                    <div className="flex items-center gap-3">
-                      <span className="flex items-center gap-1 font-medium">
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span>{proc.estimated_duration_minutes || 25} mins</span>
-                      </span>
+                    <div className="flex items-center gap-3 flex-wrap">
+                      {proc.estimated_duration_minutes ? (
+                        <span className="flex items-center gap-1 font-medium whitespace-nowrap shrink-0">
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span>{proc.estimated_duration_minutes} mins</span>
+                        </span>
+                      ) : null}
 
                       {typeof proc.total_steps === "number" && (
-                        <span className="flex items-center gap-1">
+                        <span className="flex items-center gap-1 whitespace-nowrap shrink-0">
                           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                           </svg>
@@ -234,15 +234,18 @@ export default function ProcedureListPage() {
 
                       {typeof proc.safety_critical_steps_count === "number" &&
                         proc.safety_critical_steps_count > 0 && (
-                          <span className="text-safety-red font-semibold text-2xs">
-                            ({proc.safety_critical_steps_count} safety)
+                          <span className="text-xs text-muted whitespace-nowrap shrink-0">
+                            • {proc.safety_critical_steps_count}{" "}
+                            {proc.safety_critical_steps_count === 1
+                              ? "safety-critical step"
+                              : "safety-critical steps"}
                           </span>
                         )}
                     </div>
 
                     <Link
                       href={`/procedures/${code}`}
-                      className="font-bold text-link-blue hover:underline inline-flex items-center gap-1 py-1 px-2 rounded-lg hover:bg-cream transition-colors"
+                      className="font-bold text-link-blue hover:underline inline-flex items-center gap-1 py-1 px-2 rounded-lg hover:bg-cream transition-colors whitespace-nowrap shrink-0"
                     >
                       <span>View Steps</span>
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

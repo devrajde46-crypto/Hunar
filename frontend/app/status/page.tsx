@@ -39,17 +39,40 @@ export default function StatusPage() {
 
             <CardContent>
               <div className="rounded-xl border border-card-border bg-cream/40 p-6 flex flex-col items-center justify-center gap-3">
-                <div className="flex items-center gap-2.5">
-                  <span
-                    className={`inline-block h-3.5 w-3.5 rounded-full ${
-                      isConnected ? "bg-emerald-500 shadow-xs" : "bg-safety-red shadow-xs"
-                    }`}
-                  />
+                <div className="flex items-center gap-2">
+                  {isConnected ? (
+                    <svg
+                      className="w-5 h-5 text-emerald-600 shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="w-5 h-5 text-safety-red shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                      />
+                    </svg>
+                  )}
                   <p className="text-base font-bold text-ink">{status}</p>
                 </div>
-                <p className="text-2xs font-mono text-muted break-all">
-                  API Target: {endpoint}
-                </p>
               </div>
             </CardContent>
           </Card>

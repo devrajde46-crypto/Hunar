@@ -7,6 +7,7 @@ import AppShell from "@/components/AppShell";
 import Card, { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/Card";
 import Button from "@/components/Button";
 import SafetyBadge from "@/components/SafetyBadge";
+import DraftNotice from "@/components/DraftNotice";
 import { courseApi } from "@/lib/api";
 import { Procedure, ProcedureStep } from "@/lib/types";
 
@@ -103,14 +104,18 @@ function ProcedureDetailContent() {
                 </span>
               </div>
 
-              <div className="flex items-center gap-3 text-xs text-muted font-medium">
-                <span className="flex items-center gap-1">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span>{procedure.estimated_duration_minutes || 25} minutes</span>
-                </span>
-                <span>•</span>
+              <div className="flex items-center gap-3 text-xs text-muted font-medium flex-wrap">
+                {procedure.estimated_duration_minutes ? (
+                  <>
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>{procedure.estimated_duration_minutes} minutes</span>
+                    </span>
+                    <span>•</span>
+                  </>
+                ) : null}
                 <span>{procedure.steps?.length || 0} sequential steps</span>
               </div>
             </div>
@@ -145,6 +150,9 @@ function ProcedureDetailContent() {
               </Link>
             </div>
           </div>
+
+          {/* DraftNotice must stay until a trainer-approved flag exists in the data */}
+          <DraftNotice className="my-6" />
 
           {/* Safety Warning Banner */}
           {procedure.safety_instructions && (
