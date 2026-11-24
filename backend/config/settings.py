@@ -1,6 +1,8 @@
 import os
+import sys
 from datetime import timedelta
 from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -156,6 +158,7 @@ REST_FRAMEWORK = {
         'user': '1000/day',
         'auth': '10/minute',
         'register': '10/minute',
+        'upload': '10/hour',
     },
 }
 
@@ -178,3 +181,32 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
+
+# Media and upload configuration (Phase 4)
+HUNAR_MEDIA_ROOT = Path(os.getenv('HUNAR_MEDIA_ROOT', r'C:\dev\hunar-media')).resolve()
+
+# Enforce that HUNAR_MEDIA_ROOT must NOT be inside the Git repository
+try:
+    HUNAR_MEDIA_ROOT.relative_to(BASE_DIR.resolve())
+    raise ImproperlyConfigured(
+        f"Security violation: HUNAR_MEDIA_ROOT ({HUNAR_MEDIA_ROOT}) must NOT be inside the repository root ({BASE_DIR.resolve()})."
+    )
+except ValueError:
+    # ValueError indicates HUNAR_MEDIA_ROOT is outside BASE_DIR, which is required
+    pass
+
+# Ensure media storage directories exist (skip during tests if mocking root)
+if 'test' not in sys.argv:
+    try:
+        (HUNAR_MEDIA_ROOT / 'videos').mkdir(parents=True, exist_ok=True)
+        (HUNAR_MEDIA_ROOT / 'thumbnails').mkdir(parents=True, exist_ok=True)
+    except OSError:
+        pass
+
+HUNAR_MAX_UPLOAD_MB = int(os.getenv('HUNAR_MAX_UPLOAD_MB', 200))
+HUNAR_MAX_VIDEO_SECONDS = int(os.getenv('HUNAR_MAX_VIDEO_SECONDS', 300))
+
+# Stream large files to disk instead of memory
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024  # 5 MB in memory; larger streams to temporary file
+DATA_UPLOAD_MAX_MEMORY_SIZE = 250 * 1024 * 1024  # 250 MB max request payload
+

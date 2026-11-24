@@ -799,6 +799,191 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v1/practice/submissions/:
+    get:
+      operationId: practice_submissions_list
+      description: List submissions scoped by user role (learners see own, trainers/admins
+        see institution's). Soft-deleted submissions are omitted.
+      summary: List Practice Submissions
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Practice Submissions
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPracticeSubmissionListList'
+          description: ''
+    post:
+      operationId: practice_submissions_create
+      description: Upload a practice recording for automated evaluation. Requires
+        active consent, LEARNER role, valid .mp4 or .mov container, and size under
+        HUNAR_MAX_UPLOAD_MB.
+      summary: Upload Practice Video Submission
+      tags:
+      - Practice Submissions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PracticeSubmissionUpload'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PracticeSubmissionUpload'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PracticeSubmissionUpload'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PracticeSubmission'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/practice/submissions/{id}/:
+    get:
+      operationId: practice_submissions_retrieve
+      description: Retrieve submission metadata. Scoped to the learner owner or authorized
+        trainers/admins from the same institution. Never exposes filesystem paths.
+      summary: Get Practice Submission Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Practice Submission.
+        required: true
+      tags:
+      - Practice Submissions
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PracticeSubmission'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+    delete:
+      operationId: practice_submissions_destroy
+      description: Soft-delete a submission and remove its video file from storage.
+        Only the learner owner can delete.
+      summary: Delete Practice Submission
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Practice Submission.
+        required: true
+      tags:
+      - Practice Submissions
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/practice/submissions/{id}/video/:
+    get:
+      operationId: practice_submissions_video_retrieve
+      description: Stream video with HTTP Range request support for seeking. Scoped
+        to the learner owner or authorized institutional trainers/admins.
+      summary: Secure Video Playback Stream
+      parameters:
+      - in: header
+        name: Range
+        schema:
+          type: string
+        description: Standard HTTP Range header (e.g. 'bytes=0-1048575')
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Practice Submission.
+        required: true
+      tags:
+      - Practice Submissions
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+          description: ''
+        '206':
+          content:
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
 components:
   schemas:
     DifficultyEnum:
@@ -877,6 +1062,18 @@ components:
       - id
       - title
       - trade
+    OverallAiVerdictEnum:
+      enum:
+      - PENDING
+      - PASS
+      - NEEDS_PRACTICE
+      - SAFETY_VIOLATION
+      type: string
+      description: |-
+        * `PENDING` - Pending
+        * `PASS` - Pass
+        * `NEEDS_PRACTICE` - Needs Practice
+        * `SAFETY_VIOLATION` - Safety Violation
     PaginatedModuleList:
       type: object
       required:
@@ -900,6 +1097,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Module'
+    PaginatedPracticeSubmissionListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PracticeSubmissionList'
     PaginatedProcedureListList:
       type: object
       required:
@@ -1100,6 +1320,154 @@ components:
           type: string
           format: date-time
           readOnly: true
+    PracticeSubmission:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        procedure_id:
+          type: string
+          format: uuid
+          readOnly: true
+        procedure_code:
+          type: string
+          readOnly: true
+        procedure_title:
+          type: string
+          readOnly: true
+        learner_id:
+          type: string
+          format: uuid
+          readOnly: true
+        learner_username:
+          type: string
+          readOnly: true
+        processing_status:
+          allOf:
+          - $ref: '#/components/schemas/ProcessingStatusEnum'
+          readOnly: true
+        overall_ai_verdict:
+          allOf:
+          - $ref: '#/components/schemas/OverallAiVerdictEnum'
+          readOnly: true
+        file_size_bytes:
+          type: integer
+          readOnly: true
+          nullable: true
+        duration_seconds:
+          type: number
+          format: double
+          readOnly: true
+          nullable: true
+          description: Video duration in seconds (extracted in Part C)
+        content_type:
+          type: string
+          readOnly: true
+        sha256:
+          type: string
+          readOnly: true
+        failure_reason:
+          type: string
+          readOnly: true
+          nullable: true
+        submitted_at:
+          type: string
+          format: date-time
+          readOnly: true
+        processed_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - content_type
+      - duration_seconds
+      - failure_reason
+      - file_size_bytes
+      - id
+      - learner_id
+      - learner_username
+      - overall_ai_verdict
+      - procedure_code
+      - procedure_id
+      - procedure_title
+      - processed_at
+      - processing_status
+      - sha256
+      - submitted_at
+    PracticeSubmissionList:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        procedure_id:
+          type: string
+          format: uuid
+          readOnly: true
+        procedure_code:
+          type: string
+          readOnly: true
+        procedure_title:
+          type: string
+          readOnly: true
+        learner_id:
+          type: string
+          format: uuid
+          readOnly: true
+        learner_username:
+          type: string
+          readOnly: true
+        processing_status:
+          allOf:
+          - $ref: '#/components/schemas/ProcessingStatusEnum'
+          readOnly: true
+        overall_ai_verdict:
+          allOf:
+          - $ref: '#/components/schemas/OverallAiVerdictEnum'
+          readOnly: true
+        file_size_bytes:
+          type: integer
+          readOnly: true
+          nullable: true
+        duration_seconds:
+          type: number
+          format: double
+          readOnly: true
+          nullable: true
+          description: Video duration in seconds (extracted in Part C)
+        submitted_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - duration_seconds
+      - file_size_bytes
+      - id
+      - learner_id
+      - learner_username
+      - overall_ai_verdict
+      - procedure_code
+      - procedure_id
+      - procedure_title
+      - processing_status
+      - submitted_at
+    PracticeSubmissionUpload:
+      type: object
+      properties:
+        procedure:
+          type: string
+          description: Procedure code (e.g., 'PROC-ELEC-01') or UUID of the procedure.
+        video:
+          type: string
+          format: uri
+          description: Binary video file (.mp4 or .mov container, max 200MB).
+      required:
+      - procedure
+      - video
     ProcedureDetail:
       type: object
       properties:
@@ -1231,6 +1599,22 @@ components:
       - step_number
       - title
       - visual_evidence_cue
+    ProcessingStatusEnum:
+      enum:
+      - UPLOADED
+      - QUEUED
+      - PROCESSING
+      - SCORED
+      - REVIEWED
+      - FAILED
+      type: string
+      description: |-
+        * `UPLOADED` - Uploaded
+        * `QUEUED` - Queued
+        * `PROCESSING` - Processing
+        * `SCORED` - Scored
+        * `REVIEWED` - Reviewed
+        * `FAILED` - Failed
     Register:
       type: object
       properties:

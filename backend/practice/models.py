@@ -17,6 +17,8 @@ class ConsentRecord(models.Model):
     user_agent = models.TextField(blank=True, default='')
     granted_at = models.DateTimeField(auto_now_add=True)
     revoked_at = models.DateTimeField(null=True, blank=True)
+    is_deleted = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         db_table = 'consent_records'
@@ -32,9 +34,11 @@ class ConsentRecord(models.Model):
 class PracticeSubmission(models.Model):
     class Status(models.TextChoices):
         UPLOADED = 'UPLOADED', _('Uploaded')
+        QUEUED = 'QUEUED', _('Queued')
         PROCESSING = 'PROCESSING', _('Processing')
         SCORED = 'SCORED', _('Scored')
         REVIEWED = 'REVIEWED', _('Reviewed')
+        FAILED = 'FAILED', _('Failed')
 
     class OverallVerdict(models.TextChoices):
         PENDING = 'PENDING', _('Pending')
@@ -53,10 +57,31 @@ class PracticeSubmission(models.Model):
         on_delete=models.PROTECT,
         related_name='practice_submissions',
     )
+    consent_record = models.ForeignKey(
+        ConsentRecord,
+        on_delete=models.PROTECT,
+        related_name='practice_submissions',
+        null=True,
+        blank=True,
+    )
+    video_file_path = models.CharField(
+        max_length=512,
+        blank=True,
+        default='',
+        help_text=_('Relative path under HUNAR_MEDIA_ROOT (never absolute, never client filename)'),
+    )
     video_file_url = models.CharField(max_length=1024, blank=True, default='')
     video_duration_seconds = models.FloatField(null=True, blank=True)
+    duration_seconds = models.FloatField(
+        null=True,
+        blank=True,
+        help_text=_('Video duration in seconds (extracted in Part C)'),
+    )
     file_size_bytes = models.BigIntegerField(null=True, blank=True)
     video_format = models.CharField(max_length=20, default='mp4')
+    content_type = models.CharField(max_length=100, default='video/mp4')
+    sha256 = models.CharField(max_length=64, blank=True, default='')
+    failure_reason = models.CharField(max_length=500, null=True, blank=True)
     processing_status = models.CharField(
         max_length=30,
         choices=Status.choices,

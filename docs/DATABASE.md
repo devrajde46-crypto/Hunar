@@ -291,6 +291,8 @@ Maintains an immutable legal audit trail of trainee video recording consent agre
 | `user_agent` | `TEXT` | `NULL` | Client browser user-agent string |
 | `granted_at` | `TIMESTAMPTZ` | `NOT NULL`, Default: `NOW()` | Timestamp when consent was granted |
 | `revoked_at` | `TIMESTAMPTZ` | `NULL` | Timestamp when consent was withdrawn (if any) |
+| `is_deleted` | `BOOLEAN` | `NOT NULL`, Default: `FALSE` | Soft delete flag |
+| `deleted_at` | `TIMESTAMPTZ` | `NULL` | Timestamp soft deleted |
 
 ---
 
@@ -375,11 +377,17 @@ A trainee's practice video upload and processing lifecycle state.
 | `id` | `UUID` | `PRIMARY KEY`, Default: `gen_random_uuid()` | Unique submission identifier |
 | `procedure_id` | `UUID` | `NOT NULL`, `FOREIGN KEY REFERENCES procedures(id) ON DELETE PROTECT` | Practiced task |
 | `learner_id` | `UUID` | `NOT NULL`, `FOREIGN KEY REFERENCES users(id) ON DELETE PROTECT` | Submitting trainee |
-| `video_file_url`| `VARCHAR(1024)`| `NOT NULL` | Storage URL (local path or S3 key) |
+| `consent_record_id` | `UUID` | `NULL`, `FOREIGN KEY REFERENCES consent_records(id) ON DELETE PROTECT` | Associated consent record active at upload time |
+| `video_file_path`| `VARCHAR(512)` | `NOT NULL`, Default: `''` | Stored relative path under HUNAR_MEDIA_ROOT (never client filename) |
+| `video_file_url`| `VARCHAR(1024)`| `NOT NULL`, Default: `''` | Optional CDN or presigned URL |
 | `video_duration_seconds`| `FLOAT`| `NULL` | Extracted duration in seconds |
+| `duration_seconds`| `FLOAT` | `NULL` | Video duration in seconds (extracted in Part C) |
 | `file_size_bytes`| `BIGINT` | `NULL` | Raw file size in bytes |
-| `video_format` | `VARCHAR(20)` | `NOT NULL`, Default: `'mp4'` | Format: `mp4`, `webm` |
-| `processing_status`| `VARCHAR(30)`| `NOT NULL`, Default: `'UPLOADED'` | Check: `IN ('UPLOADED', 'QUEUED', 'PROCESSING', 'ANALYZED', 'REVIEWED', 'FAILED')` |
+| `video_format` | `VARCHAR(20)` | `NOT NULL`, Default: `'mp4'` | Safe container format: `mp4`, `mov` |
+| `content_type` | `VARCHAR(100)` | `NOT NULL`, Default: `'video/mp4'` | MIME type (`video/mp4`, `video/quicktime`) |
+| `sha256` | `VARCHAR(64)` | `NOT NULL`, Default: `''` | SHA-256 digest computed during streaming write |
+| `failure_reason`| `VARCHAR(500)` | `NULL` | Failure reason message if processing fails |
+| `processing_status`| `VARCHAR(30)`| `NOT NULL`, Default: `'UPLOADED'` | Check: `IN ('UPLOADED', 'QUEUED', 'PROCESSING', 'SCORED', 'REVIEWED', 'FAILED')` |
 | `overall_ai_verdict`| `VARCHAR(30)`| `NOT NULL`, Default: `'PENDING'` | Check: `IN ('PENDING', 'PASS', 'NEEDS_PRACTICE', 'SAFETY_VIOLATION')` |
 | `submitted_at` | `TIMESTAMPTZ` | `NOT NULL`, Default: `NOW()` | Timestamp when upload completed |
 | `processed_at` | `TIMESTAMPTZ` | `NULL` | Timestamp when AI inference concluded |

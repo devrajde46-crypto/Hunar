@@ -352,28 +352,83 @@ sequenceDiagram
 ### 3.4 Practice & Video Submissions (`/api/v1/practice/`)
 
 #### 3.4.1 Create Practice Video Submission (`POST /api/v1/practice/submissions/`)
-- **Permission:** `IsLearner`
+- **Permission:** `IsLearner` (Requires authenticated user with `role: LEARNER` and active, granted data privacy consent)
 - **Request Format:** `multipart/form-data`
+- **Throttling:** 10 requests / hour per user
+- **Validation Rules:**
+  - Learner must have an active, non-revoked `ConsentRecord`.
+  - Procedure must exist, be active, and belong to the learner's institution (otherwise returns `404 Not Found`).
+  - Permitted video containers: `.mp4` and `.mov` (validated via file extension and initial binary `ftyp` box header).
+  - Maximum upload size: `HUNAR_MAX_UPLOAD_MB` (default 200MB, streaming to disk).
+  - Storage: Saved to `HUNAR_MEDIA_ROOT/videos/<institution_id>/<submission_uuid>.<ext>` (client original filename is never stored or used).
 - **Payload:**
-  - `procedure_code`: `"PROC-ELEC-02"`
-  - `video_file`: `<binary MP4/WebM file (max 250MB)>`
+  - `procedure`: Procedure code (e.g., `"PROC-ELEC-01"`) or UUID
+  - `video`: Binary MP4/MOV video file
 - **Response `201 Created`:**
 ```json
 {
   "id": "9a8b7c6d-5432-4100-8200-112233445566",
-  "procedure_code": "PROC-ELEC-02",
-  "procedure_title": "Switch-Controlled 3-Pin Socket Outlet Installation",
-  "processing_status": "QUEUED",
+  "procedure_id": "11223344-5566-4777-8888-99aabbccddee",
+  "procedure_code": "PROC-ELEC-01",
+  "procedure_title": "Single-Pole One-Way Switch Controlling a Batten Lamp",
+  "learner_id": "33445566-7788-4999-aaaa-bbccddeeff00",
+  "learner_username": "learner_rahul",
+  "processing_status": "UPLOADED",
   "overall_ai_verdict": "PENDING",
-  "submitted_at": "2026-11-21T21:22:00Z",
-  "estimated_processing_seconds": 180,
-  "status_check_url": "/api/v1/practice/submissions/9a8b7c6d-5432-4100-8200-112233445566/status/"
+  "file_size_bytes": 14589200,
+  "duration_seconds": null,
+  "content_type": "video/mp4",
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "failure_reason": null,
+  "submitted_at": "2026-11-24T18:00:00Z",
+  "processed_at": null
 }
 ```
 
 ---
 
-#### 3.4.2 Submission Status Polling (`GET /api/v1/practice/submissions/{id}/status/`)
+#### 3.4.2 List Practice Submissions (`GET /api/v1/practice/submissions/`)
+- **Permission:** `IsAuthenticated`
+- **Visibility Scoping:**
+  - `LEARNER`: Sees only their own practice submissions.
+  - `TRAINER` and `INSTITUTION_ADMIN`: See submissions from trainees belonging to their institution.
+  - `SUPER_ADMIN`: Full cross-institutional visibility.
+  - Soft-deleted submissions (`is_deleted=True`) are strictly excluded.
+- **Response `200 OK`:** Standard pagination envelope containing `PracticeSubmissionListSerializer` records.
+
+---
+
+#### 3.4.3 Retrieve Practice Submission (`GET /api/v1/practice/submissions/{id}/`)
+- **Permission:** `IsAuthenticated` (Scoped to submission owner or institutional trainer/admin; returns `404 Not Found` for unauthorized or soft-deleted records)
+- **Response `200 OK`:** Full `PracticeSubmissionSerializer` record (strictly excludes internal filesystem paths).
+
+---
+
+#### 3.4.4 Secure Video Streaming & Playback (`GET /api/v1/practice/submissions/{id}/video/`)
+- **Permission:** `IsAuthenticated` (Scoped to submission owner or institutional trainer/admin; returns `404 Not Found` otherwise)
+- **Streaming Features:**
+  - Standard full download: HTTP `200 OK`
+  - Range request playback: HTTP `206 Partial Content` supporting client seeking (`Range: bytes=start-end`)
+  - Response Headers:
+    - `Accept-Ranges: bytes`
+    - `Content-Range: bytes <start>-<end>/<total>` (when Range requested)
+    - `Content-Type: <stored content_type>`
+    - `Cache-Control: private, no-store`
+    - `X-Content-Type-Options: nosniff`
+
+---
+
+#### 3.4.5 Delete Practice Submission (`DELETE /api/v1/practice/submissions/{id}/`)
+- **Permission:** Owner `LEARNER` only.
+- **Behavior:**
+  - Trainers and administrators receive `403 Forbidden` ("Trainers and administrators cannot delete learner submissions.").
+  - Soft-deletes database record (`is_deleted = True`, `deleted_at = NOW()`).
+  - Removes physical media file from disk storage.
+- **Response `204 No Content`**
+
+---
+
+#### 3.4.6 Submission Status Polling (`GET /api/v1/practice/submissions/{id}/status/`)
 - **Permission:** `IsOwnerOrTrainer`
 - **Response `200 OK` (While In-Flight):**
 ```json
