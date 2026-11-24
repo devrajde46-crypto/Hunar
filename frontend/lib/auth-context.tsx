@@ -9,8 +9,8 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (payload: LoginPayload) => Promise<void>;
-  register: (payload: RegisterPayload) => Promise<void>;
+  login: (payload: LoginPayload) => Promise<User>;
+  register: (payload: RegisterPayload) => Promise<User>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
 }
@@ -55,23 +55,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  const login = async (payload: LoginPayload) => {
+  const login = async (payload: LoginPayload): Promise<User> => {
     setIsLoading(true);
     try {
       const { user: loggedInUser } = await authApi.login(payload);
       setUser(loggedInUser);
-      router.push('/');
+      return loggedInUser;
     } finally {
       setIsLoading(false);
     }
   };
 
-  const register = async (payload: RegisterPayload) => {
+  const register = async (payload: RegisterPayload): Promise<User> => {
     setIsLoading(true);
     try {
       const { user: registeredUser } = await authApi.register(payload);
       setUser(registeredUser);
-      router.push('/');
+      return registeredUser;
     } finally {
       setIsLoading(false);
     }

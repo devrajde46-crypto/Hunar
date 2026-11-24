@@ -87,18 +87,15 @@ export const courseApi = {
     return res.data;
   },
 
-  async getProcedures(params?: { difficulty?: string; search?: string }, token?: string): Promise<PaginatedResponse<Procedure>> {
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
-    const res = await backendClient.get<PaginatedResponse<Procedure>>('/api/v1/courses/procedures/', {
-      headers,
+  async getProcedures(params?: { difficulty?: string; search?: string }): Promise<PaginatedResponse<Procedure>> {
+    const res = await apiClient.get<PaginatedResponse<Procedure>>('/api/courses/procedures', {
       params,
     });
     return res.data;
   },
 
-  async getProcedure(codeOrId: string, token?: string): Promise<Procedure> {
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
-    const res = await backendClient.get<Procedure>(`/api/v1/courses/procedures/${codeOrId}/`, { headers });
+  async getProcedure(codeOrId: string): Promise<Procedure> {
+    const res = await apiClient.get<Procedure>(`/api/courses/procedures/${encodeURIComponent(codeOrId)}`);
     return res.data;
   },
 

@@ -16,9 +16,9 @@ export function middleware(request: NextRequest) {
   const isAuthPage = pathname === '/login' || pathname === '/register';
   const isPublicPage = isAuthPage || pathname.startsWith('/status');
 
-  // If user is authenticated and navigating to login/register, redirect to dashboard /
+  // If user is authenticated and navigating to login/register, redirect to /home
   if (isAuthenticated && isAuthPage) {
-    const homeUrl = new URL('/', request.url);
+    const homeUrl = new URL('/home', request.url);
     return NextResponse.redirect(homeUrl);
   }
 

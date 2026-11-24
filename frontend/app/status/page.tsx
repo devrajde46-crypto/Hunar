@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import AppShell from "@/components/AppShell";
+import Card, { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/Card";
 
 export default function StatusPage() {
   const [status, setStatus] = useState<string>("Checking backend connection...");
@@ -23,26 +25,36 @@ export default function StatusPage() {
       });
   }, [endpoint]);
 
+  const isConnected = status === "Backend connected";
+
   return (
-    <div className="flex flex-1 flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md rounded-lg border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 text-center">
-        <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-50">
-          Backend Service Status
-        </h1>
-        <div className="mt-4 flex items-center justify-center gap-2">
-          <span
-            className={`inline-block h-3 w-3 rounded-full ${
-              status === "Backend connected" ? "bg-emerald-500" : "bg-amber-500"
-            }`}
-          />
-          <p className="text-base font-semibold text-zinc-800 dark:text-zinc-200">
-            {status}
-          </p>
+    <AppShell>
+      <div className="flex flex-1 flex-col items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          <Card padding="lg" className="text-center">
+            <CardHeader>
+              <CardTitle as="h1">System &amp; Service Status</CardTitle>
+              <CardDescription>Direct API health verification</CardDescription>
+            </CardHeader>
+
+            <CardContent>
+              <div className="rounded-xl border border-card-border bg-cream/40 p-6 flex flex-col items-center justify-center gap-3">
+                <div className="flex items-center gap-2.5">
+                  <span
+                    className={`inline-block h-3.5 w-3.5 rounded-full ${
+                      isConnected ? "bg-emerald-500 shadow-xs" : "bg-safety-red shadow-xs"
+                    }`}
+                  />
+                  <p className="text-base font-bold text-ink">{status}</p>
+                </div>
+                <p className="text-2xs font-mono text-muted break-all">
+                  API Target: {endpoint}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-        <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400 font-mono">
-          Endpoint: {endpoint}
-        </p>
       </div>
-    </div>
+    </AppShell>
   );
 }

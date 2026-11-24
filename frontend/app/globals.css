@@ -1,19 +1,53 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --background: #F9F2E0;
+  --foreground: #1B2430;
+  --color-cream: #F9F2E0;
+  --color-card-border: #E6DCC3;
+  --color-primary-blue: #91B5E5;
+  --color-safety-red: #D1120A;
+  --color-ink: #1B2430;
+  --color-muted: #4A5568;
+  --color-link-blue: #1F4E8C;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --card-bg: #FFFFFF;
+  --card-border: #E6DCC3;
+  --primary-blue: #91B5E5;
+  --safety-red: #D1120A;
+  --ink: #1B2430;
+  --muted: #4A5568;
+  --link-blue: #1F4E8C;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  min-height: 100vh;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-freudian, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Custom design tokens for Hunar */
+.bg-cream { background-color: #F9F2E0; }
+.border-card-border { border-color: #E6DCC3; }
+.bg-card-border { background-color: #E6DCC3; }
+.bg-primary-blue { background-color: #91B5E5; }
+.text-primary-blue { color: #91B5E5; }
+.border-primary-blue { border-color: #91B5E5; }
+.bg-safety-red { background-color: #D1120A; }
+.text-safety-red { color: #D1120A; }
+.border-safety-red { border-color: #D1120A; }
+.text-ink { color: #1B2430; }
+.bg-ink { background-color: #1B2430; }
+.text-muted { color: #4A5568; }
+.bg-muted { background-color: #4A5568; }
+.text-link-blue { color: #1F4E8C; }
+.bg-link-blue { background-color: #1F4E8C; }
+.border-link-blue { border-color: #1F4E8C; }
+.font-display { font-family: var(--font-freudian, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif); }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth-context";
-import Header from "@/components/Header";
+import { inter, freudianVariable } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Hunar",
@@ -14,10 +14,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col font-sans bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+    <html lang="en" className={`h-full antialiased ${inter.variable} ${freudianVariable}`}>
+      <body className="min-h-full flex flex-col font-sans bg-cream text-ink">
         <AuthProvider>
-          <Header />
           <div className="flex-1 flex flex-col">{children}</div>
         </AuthProvider>
       </body>
