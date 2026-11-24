@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="web_standard" name="shell-type">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Oswald:wght@500;600;700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        @layer base {
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                overscroll-behavior: none;
+            }
+
+            main>:first-child {
+                margin-top: 0 !important;
+            }
+
+            main>:last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+        id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-secondary-fixed": "#001b3d", "inverse-primary": "#a5c9fa", "on-error-container": "#93000a", "primary-container": "#91b5e5", "on-primary-fixed": "#001c37", "primary": "#3c608b", "outline-variant": "#c3c6d0", "error-container": "#ffdad6", "on-primary-fixed-variant": "#214872", "surface-variant": "#e9e2d0", "surface-container-highest": "#e9e2d0", "on-tertiary-fixed": "#410000", "on-primary-container": "#1f4670", "surface-dim": "#e0dac8", "tertiary-fixed": "#ffdad4", "surface-tint": "#3c608b", "primary-fixed": "#d2e4ff", "background": "#fff9ec", "tertiary-container": "#ff9686", "on-secondary-container": "#184987", "tertiary": "#c00001", "on-surface-variant": "#43474e", "surface-container-lowest": "#ffffff", "on-primary": "#ffffff", "surface-container": "#f4eddc", "secondary-container": "#91baff", "on-surface": "#1e1c11", "surface-bright": "#fff9ec", "inverse-surface": "#333025", "primary-fixed-dim": "#a5c9fa", "on-error": "#ffffff", "inverse-on-surface": "#f7f0de", "on-tertiary": "#ffffff", "on-tertiary-fixed-variant": "#930000", "surface": "#fff9ec", "secondary-fixed-dim": "#a9c7ff", "secondary-fixed": "#d6e3ff", "error": "#ba1a1a", "on-secondary-fixed-variant": "#144684", "tertiary-fixed-dim": "#ffb4a8", "on-secondary": "#ffffff", "surface-container-high": "#efe8d6", "on-background": "#1e1c11", "outline": "#73777f", "secondary": "#335f9d", "surface-container-low": "#faf3e1", "on-tertiary-container": "#900000" }, borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" }, spacing: { "space-lg": "1.5rem", "space-sm": "0.5rem", "margin-md": "2rem", "space-xl": "2.5rem", gutter: "1rem", "space-md": "1rem", "gutter-md": "1.5rem", "space-xs": "0.25rem", margin: "1rem" }, fontFamily: { "body-md": ["Inter"], "label-lg": ["Inter"], "headline-lg": ["Oswald"], "body-lg": ["Inter"], "headline-sm": ["Oswald"], "body-sm": ["Inter"], display: ["Oswald"], "label-md": ["Inter"], "label-sm": ["Inter"], "headline-lg-mobile": ["Oswald"], "headline-md": ["Oswald"] }, fontSize: { "body-md": ["1rem", { lineHeight: "1.5rem", fontWeight: "400" }], "label-lg": ["1rem", { lineHeight: "1.5rem", fontWeight: "600" }], "headline-lg": ["2rem", { lineHeight: "2.5rem", fontWeight: "700" }], "body-lg": ["1.125rem", { lineHeight: "1.75rem", fontWeight: "400" }], "headline-sm": ["1.25rem", { lineHeight: "1.75rem", fontWeight: "600" }], "body-sm": ["0.875rem", { lineHeight: "1.375rem", fontWeight: "400" }], display: ["2.75rem", { lineHeight: "3rem", fontWeight: "700" }], "label-md": ["0.875rem", { lineHeight: "1.25rem", fontWeight: "600" }], "label-sm": ["0.75rem", { lineHeight: "1rem", fontWeight: "600" }], "headline-lg-mobile": ["1.75rem", { lineHeight: "2.25rem", fontWeight: "700" }], "headline-md": ["1.5rem", { lineHeight: "2rem", fontWeight: "600" }] } } } };</script>
+</head>
+
+<body class="bg-surface font-body-md text-on-surface antialiased">
+    <header
+        class="fixed top-0 left-0 right-0 w-full z-50 bg-surface/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+        <div class="h-16 max-w-7xl mx-auto px-margin md:px-gutter-md flex items-center justify-between gap-space-md">
+            <div class="flex items-center gap-space-md">
+                <div class="flex items-center gap-space-sm">
+                    <div
+                        class="w-9 h-9 rounded bg-primary-container flex items-center justify-center text-on-primary-container shadow-sm">
+                        <span class="material-symbols-outlined text-[20px]">bolt</span></div><span
+                        class="font-headline-md text-headline-md tracking-tight text-on-surface uppercase">HUNAR</span>
+                </div><span
+                    class="hidden sm:inline-flex items-center px-space-sm py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm border border-outline-variant/40"><span
+                        class="material-symbols-outlined text-[14px] mr-1 text-primary">verified</span>ITI Certified
+                    Platform</span>
+            </div>
+            <nav class="hidden md:flex items-center gap-space-sm"
+                data-active-classes="bg-primary-container text-on-primary-container font-label-md text-label-md rounded px-space-md py-space-sm">
+                <a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-space-md py-space-sm rounded transition-colors"
+                    data-path="home" href="#">Home</a><a
+                    class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-space-md py-space-sm rounded transition-colors"
+                    data-path="procedures" href="#">Procedures</a><a
+                    class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-space-md py-space-sm rounded transition-colors"
+                    data-path="progress" href="#">Progress</a><a
+                    class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-space-md py-space-sm rounded transition-colors"
+                    data-path="profile" href="#">Profile</a></nav>
+            <div class="flex items-center gap-space-md">
+                <div class="hidden lg:flex flex-col text-right"><span
+                        class="font-label-sm text-label-sm text-on-surface">R. Sharma (ITI-EL-402)</span><span
+                        class="font-body-sm text-body-sm text-on-surface-variant text-xs">Batch 2024 •
+                        Electrician</span></div>
+                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span
+                        class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+            </div>
+        </div>
+    </header>
+    <main class="w-full pt-16 pb-20 md:pb-space-xl bg-surface">
+        <div class="flex flex-col w-full">
+            <div class="max-w-6xl mx-auto w-full px-margin md:px-gutter-md py-space-md space-y-space-lg">
+                <!-- Top Navigation / Breadcrumbs -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pt-space-xs">
+                    <a class="inline-flex items-center gap-space-xs text-on-primary-container font-label-md text-label-md hover:underline w-fit"
+                        href="#">
+                        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                        <span>Back to Procedures</span>
+                    </a>
+                    <div
+                        class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wide">
+                        <span class="w-2 h-2 rounded-full bg-primary inline-block"></span>
+                        <span>Trade: Electrician</span>
+                        <span class="text-outline-variant">•</span>
+                        <span>Semester 1</span>
+                        <span class="text-outline-variant">•</span>
+                        <span>Module 3 (Domestic Installations)</span>
+                    </div>
+                </div>
+                <!-- Header Hero Card -->
+                <div class="bg-surface-container-lowest rounded-xl p-space-md md:p-space-lg shadow-sm space-y-space-md">
+                    <div class="flex flex-wrap items-center justify-between gap-space-sm">
+                        <div class="flex flex-wrap items-center gap-space-sm">
+                            <span
+                                class="font-headline-sm text-headline-sm text-on-primary-container tracking-wider bg-surface-container px-space-sm py-1 rounded">
+                                PROC-ELEC-01
+                            </span>
+                            <span
+                                class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface font-label-sm text-label-sm px-space-sm py-1 rounded">
+                                <span class="material-symbols-outlined text-[16px] text-primary">speed</span>
+                                Beginner Level
+                            </span>
+                            <span
+                                class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface font-label-sm text-label-sm px-space-sm py-1 rounded">
+                                <span class="material-symbols-outlined text-[16px] text-primary">schedule</span>
+                                15 mins • 6 practical steps
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-space-xs">
+                            <span
+                                class="bg-primary-container text-on-primary-container font-label-sm text-label-sm px-space-sm py-1 rounded">
+                                National ITI Practical #04
+                            </span>
+                            <span
+                                class="bg-surface-container-highest text-on-surface font-label-sm text-label-sm px-space-sm py-1 rounded flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[14px] text-primary">verified_user</span>
+                                Trainer Review Required
+                            </span>
+                        </div>
+                    </div>
+                    <div class="space-y-space-xs">
+                        <h1 class="font-display text-display uppercase text-on-surface leading-tight tracking-tight">
+                            Single-Pole Switch Controlling a Batten Lamp
+                        </h1>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-4xl">
+                            <strong class="font-label-lg text-on-surface">Objective:</strong> Wire a single-way SPST
+                            (Single Pole Single Throw) switch to control an incandescent or LED batten lamp fixture from
+                            a single phase 230V AC supply in accordance with IS 732 / National Electrical Code
+                            regulations.
+                        </p>
+                    </div>
+                    <div
+                        class="flex flex-wrap items-center gap-space-md pt-space-xs text-on-surface-variant font-body-sm text-body-sm bg-surface-container-low p-space-md rounded-lg">
+                        <div class="flex items-center gap-space-xs">
+                            <span class="material-symbols-outlined text-tertiary text-[18px]">warning</span>
+                            <span class="font-label-sm text-label-sm text-on-surface">Contains 2 Safety-Critical
+                                Steps</span>
+                        </div>
+                        <div class="hidden sm:block text-outline-variant">•</div>
+                        <div>Standard: <span class="font-label-sm text-label-sm text-on-surface">IS 732: 2019 (Code of
+                                Practice for Electrical Wiring)</span></div>
+                        <div class="hidden sm:block text-outline-variant">•</div>
+                        <div>Assessment: <span class="font-label-sm text-label-sm text-on-surface">Physical Continuity
+                                &amp; Video Trace</span></div>
+                    </div>
+                </div>
+                <!-- Mandatory Safety Card -->
+                <div class="bg-error-container text-on-error-container rounded-xl p-space-md md:p-space-lg shadow-sm flex flex-col md:flex-row gap-space-md items-start"
+                    style="background-color: rgb(255, 255, 255); border-left: 5px solid rgb(209, 18, 10); color: rgb(30, 28, 17);">
+                    <div class="w-12 h-12 rounded-lg bg-tertiary flex items-center justify-center text-on-tertiary shrink-0"
+                        style="background-color: rgb(209, 18, 10); color: rgb(255, 255, 255);">
+                        <span class="material-symbols-outlined text-[30px]"
+                            style="font-variation-settings: 'FILL' 1;">warning</span>
+                    </div>
+                    <div class="space-y-space-xs flex-1">
+                        <div class="flex items-center gap-space-sm">
+                            <span
+                                class="bg-tertiary text-on-tertiary font-label-sm text-label-sm uppercase px-space-sm py-0.5 rounded tracking-wider"
+                                style="background-color: rgb(209, 18, 10); color: rgb(255, 255, 255);">
+                                Mandatory Safety Protocol
+                            </span>
+                            <span class="font-label-sm text-label-sm text-tertiary uppercase"
+                                style="color: rgb(209, 18, 10);">Life Safety Check</span>
+                        </div>
+                        <h2 class="font-headline-md text-headline-md uppercase text-on-error-container"
+                            style="color: rgb(209, 18, 10);">
+                            Isolate the supply and prove the circuit dead before touching any conductor
+                        </h2>
+                        <p class="font-body-md text-body-md text-on-error-container" style="color: rgb(51, 48, 37);">
+                            Verify with a calibrated multimeter or approved two-pole voltage tester across
+                            Phase-to-Neutral and Phase-to-Earth at the distribution block before stripping, clipping, or
+                            terminating conductors. Never rely on an indicator light or switch orientation alone.
+                        </p>
+                    </div>
+                </div>
+                <!-- Before You Start Checklist Grid -->
+                <div class="bg-surface-container-lowest rounded-xl p-space-md md:p-space-lg shadow-sm space-y-space-md">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+                        <div>
+                            <span
+                                class="font-label-sm text-label-sm text-primary uppercase tracking-wider block">Pre-Requisites</span>
+                            <h2 class="font-headline-lg text-headline-lg uppercase text-on-surface">Before You Start
+                                Checklist</h2>
+                        </div>
+                        <div
+                            class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 bg-surface-container px-space-sm py-1 rounded">
+                            <span class="material-symbols-outlined text-[16px] text-primary">fact_check</span>
+                            Check off items at your bench before video submission
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg pt-space-xs">
+                        <!-- Tools Column -->
+                        <div class="space-y-space-sm bg-surface-container-low p-space-md rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <span
+                                    class="font-headline-sm text-headline-sm uppercase text-on-surface flex items-center gap-space-xs">
+                                    <span class="material-symbols-outlined text-primary text-[20px]">build</span>
+                                    Required Tools
+                                </span>
+                                <span class="font-label-sm text-label-sm text-on-surface-variant" id="tools-counter">0 /
+                                    4 ready</span>
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="flex items-center gap-space-sm min-h-[44px] p-space-xs rounded bg-surface-container-lowest hover:bg-surface-container cursor-pointer transition-colors">
+                                    <input class="tool-item w-5 h-5 text-primary rounded accent-primary cursor-pointer"
+                                        type="checkbox">
+                                    <div class="flex flex-col">
+                                        <span class="font-label-md text-label-md text-on-surface">Insulated Combination
+                                            Pliers</span>
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant">1000V BIS/IEC
+                                            60900 rated grip</span>
+                                    </div>
+                                </label>
+                                <label
+                                    class="flex items-center gap-space-sm min-h-[44px] p-space-xs rounded bg-surface-container-lowest hover:bg-surface-container cursor-pointer transition-colors">
+                                    <input class="tool-item w-5 h-5 text-primary rounded accent-primary cursor-pointer"
+                                        type="checkbox">
+                                    <div class="flex flex-col">
+                                        <span class="font-label-md text-label-md text-on-surface">Wire Stripper &amp;
+                                            Cutter</span>
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant">Adjustable gauge
+                                            0.5 mm² to 2.5 mm²</span>
+                                    </div>
+                                </label>
+                                <label
+                                    class="flex items-center gap-space-sm min-h-[44px] p-space-xs rounded bg-surface-container-lowest hover:bg-surface-container cursor-pointer transition-colors">
+                                    <input class="tool-item w-5 h-5 text-primary rounded accent-primary cursor-pointer"
+                                        type="checkbox">
+                                    <div class="flex flex-col">
+                                        <span class="font-label-md text-label-md text-on-surface">Insulated Terminal
+                                            Screwdrivers</span>
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant">3 mm and 5 mm
+                                            flathead blade</span>
+                                    </div>
+                                </label>
+                                <label
+                                    class="flex items-center gap-space-sm min-h-[44px] p-space-xs rounded bg-surface-container-lowest hover:bg-surface-container cursor-pointer transition-colors">
+                                    <input class="tool-item w-5 h-5 text-primary rounded accent-primary cursor-pointer"
+                                        type="checkbox">
+                                    <div class="flex flex-col">
+                                        <span class="font-label-md text-label-md text-on-surface">Digital Multimeter /
+                                            Voltage Tester</span>
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant">Calibrated for
+                                            AC volts and ohms testing</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- Materials Column -->
+                        <div class="space-y-space-sm bg-surface-container-low p-space-md rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <span
+                                    class="font-headline-sm text-headline-sm uppercase text-on-surface flex items-center gap-space-xs">
+                                    <span class="material-symbols-outlined text-primary text-[20px]">inventory_2</span>
+                                    Required Materials
+                                </span>
+                                <span class="font-label-sm text-label-sm text-on-surface-variant"
+                                    id="materials-counter">0 / 4 ready</span>
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="flex items-center gap-space-sm min-h-[44px] p-space-xs rounded bg-surface-container-lowest hover:bg-surface-container cursor-pointer transition-colors">
+                                    <input
+                                        class="material-item w-5 h-5 text-primary rounded accent-primary cursor-pointer"
+                                        type="checkbox">
+                                    <div class="flex flex-col">
+                                        <span class="font-label-md text-label-md text-on-surface">SPST Flush
+                                            Switch</span>
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant">Single-pole
+                                            1-way (6A, 250V AC, ISI marked)</span>
+                                    </div>
+                                </label>
+                                <label
+                                    class="flex items-center gap-space-sm min-h-[44px] p-space-xs rounded bg-surface-container-lowest hover:bg-surface-container cursor-pointer transition-colors">
+                                    <input
+                                        class="material-item w-5 h-5 text-primary rounded accent-primary cursor-pointer"
+                                        type="checkbox">
+                                    <div class="flex flex-col">
+                                        <span class="font-label-md text-label-md text-on-surface">Batten Lamp
+                                            Holder</span>
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant">Brass/Bakelite
+                                            B22 bayonet base with skirt</span>
+                                    </div>
+                                </label>
+                                <label
+                                    class="flex items-center gap-space-sm min-h-[44px] p-space-xs rounded bg-surface-container-lowest hover:bg-surface-container cursor-pointer transition-colors">
+                                    <input
+                                        class="material-item w-5 h-5 text-primary rounded accent-primary cursor-pointer"
+                                        type="checkbox">
+                                    <div class="flex flex-col">
+                                        <span class="font-label-md text-label-md text-on-surface">1.5 sq mm PVC Copper
+                                            Conductors</span>
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant">Red (Phase),
+                                            Black (Neutral), Green (Earth)</span>
+                                    </div>
+                                </label>
+                                <label
+                                    class="flex items-center gap-space-sm min-h-[44px] p-space-xs rounded bg-surface-container-lowest hover:bg-surface-container cursor-pointer transition-colors">
+                                    <input
+                                        class="material-item w-5 h-5 text-primary rounded accent-primary cursor-pointer"
+                                        type="checkbox">
+                                    <div class="flex flex-col">
+                                        <span class="font-label-md text-label-md text-on-surface">Workbench Baseboard
+                                            &amp; Blocks</span>
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant">Sunmica board,
+                                            round block &amp; wood screws</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Procedure Steps Section -->
+                <div class="space-y-space-md">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span
+                                class="font-label-sm text-label-sm text-primary uppercase tracking-wider block">Execution
+                                Workflow</span>
+                            <h2 class="font-headline-lg text-headline-lg uppercase text-on-surface">Step-by-Step
+                                Procedure Instructions</h2>
+                        </div>
+                        <span
+                            class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-high px-space-sm py-1 rounded hidden sm:inline-block">
+                            All steps require clear camera line-of-sight
+                        </span>
+                    </div>
+                    <!-- Step 1 -->
+                    <div
+                        class="bg-surface-container-lowest rounded-xl p-space-md md:p-space-lg shadow-sm space-y-space-sm">
+                        <div class="flex flex-wrap items-center justify-between gap-space-xs">
+                            <div class="flex items-center gap-space-sm">
+                                <span
+                                    class="font-headline-sm text-headline-sm bg-primary-container text-on-primary-container px-space-sm py-1 rounded">
+                                    STEP 1
+                                </span>
+                                <h3 class="font-headline-md text-headline-md uppercase text-on-surface">
+                                    Mounting the Batten Lamp Holder &amp; Switch Box
+                                </h3>
+                            </div>
+                            <span
+                                class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-space-sm py-0.5 rounded">
+                                Mechanical Assembly
+                            </span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface">
+                            Fix the wooden mounting board securely to your lab station rail. Fasten the batten lamp
+                            holder base and surface switch box ensuring mechanical rigidity. Check that the switch box
+                            orientation places the <strong>TOP</strong> marking strictly upward to maintain standard
+                            down-push-to-close behavior.
+                        </p>
+                        <!-- Camera Framing Callout -->
+                        <div class="bg-surface-container-low rounded-lg p-space-sm flex items-start gap-space-sm">
+                            <div
+                                class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary shrink-0">
+                                <span class="material-symbols-outlined text-[18px]">videocam</span>
+                            </div>
+                            <div class="text-on-surface font-body-sm text-body-sm">
+                                <strong class="font-label-sm text-label-sm text-primary block uppercase">Camera View
+                                    Required:</strong>
+                                Wide angle shot showing hands fixing screws and confirming switch box is oriented with
+                                "TOP" marking upward without baseboard wobble.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Step 2 -->
+                    <div
+                        class="bg-surface-container-lowest rounded-xl p-space-md md:p-space-lg shadow-sm space-y-space-sm">
+                        <div class="flex flex-wrap items-center justify-between gap-space-xs">
+                            <div class="flex items-center gap-space-sm">
+                                <span
+                                    class="font-headline-sm text-headline-sm bg-primary-container text-on-primary-container px-space-sm py-1 rounded">
+                                    STEP 2
+                                </span>
+                                <h3 class="font-headline-md text-headline-md uppercase text-on-surface">
+                                    Preparing &amp; Stripping Conductor Insulation
+                                </h3>
+                            </div>
+                            <span
+                                class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-space-sm py-0.5 rounded">
+                                Conductor Prep
+                            </span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface">
+                            Measure and cut the required lengths of 1.5 sq mm copper wire. Using the adjustable wire
+                            stripper, strip <strong>8mm to 10mm</strong> of PVC insulation from both ends. Ensure the
+                            cutting blade does not nick, score, or cut any copper strands, which would create localized
+                            high-resistance hot spots under current load.
+                        </p>
+                        <!-- Camera Framing Callout -->
+                        <div class="bg-surface-container-low rounded-lg p-space-sm flex items-start gap-space-sm">
+                            <div
+                                class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary shrink-0">
+                                <span class="material-symbols-outlined text-[18px]">videocam</span>
+                            </div>
+                            <div class="text-on-surface font-body-sm text-body-sm">
+                                <strong class="font-label-sm text-label-sm text-primary block uppercase">Camera View
+                                    Required:</strong>
+                                Close-up macro view of the wire stripper action showing intact bare copper core with
+                                zero strand shearing and clean square insulation cut.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Step 3: SAFETY CRITICAL -->
+                    <div
+                        class="bg-surface-container-lowest rounded-xl p-space-md md:p-space-lg shadow-sm space-y-space-sm">
+                        <div class="flex flex-wrap items-center justify-between gap-space-xs">
+                            <div class="flex items-center gap-space-sm">
+                                <span
+                                    class="font-headline-sm text-headline-sm bg-tertiary text-on-tertiary px-space-sm py-1 rounded"
+                                    style="background-color: rgb(209, 18, 10); color: rgb(255, 255, 255);">
+                                    STEP 3
+                                </span>
+                                <h3 class="font-headline-md text-headline-md uppercase text-on-surface">
+                                    Phase Wire Termination to Switch Terminal
+                                </h3>
+                            </div>
+                            <!-- Safety Badge -->
+                            <span
+                                class="font-label-sm text-label-sm uppercase px-space-sm py-1 rounded flex items-center gap-1 shadow-sm font-semibold"
+                                style="background-color: rgb(209, 18, 10); color: rgb(255, 255, 255);"><span
+                                    class="material-symbols-outlined text-[16px]"
+                                    style="font-variation-settings: 'FILL' 1;">warning</span>Safety-critical</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface">
+                            Terminate the incoming Phase (Live) red conductor directly to the bottom terminal of the
+                            SPST switch. <strong>Never terminate the neutral wire to the switch.</strong> The switch
+                            must isolate live line potential so that the fixture is de-energized when switched OFF.
+                            Ensure the clamping screw bears down evenly on copper without bare conductor protruding
+                            beyond the plastic terminal body.
+                        </p>
+                        <div class="p-space-sm rounded-lg font-body-sm text-body-sm flex items-center gap-space-xs shadow-sm"
+                            style="background-color: rgb(255, 255, 255); border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(195, 198, 208) rgb(195, 198, 208) rgb(195, 198, 208) rgb(209, 18, 10); color: rgb(30, 28, 17);">
+                            <span class="material-symbols-outlined text-[18px] shrink-0"
+                                style="color: #D1120A; font-variation-settings: 'FILL' 1;">warning</span><span><strong
+                                    style="color: #D1120A;">Critical Warning:</strong> Wiring a switch into the neutral
+                                line leaves the lamp holder permanently alive at 230V even when turned OFF, creating a
+                                fatal shock hazard during bulb replacement.</span></div>
+                        <!-- Camera Framing Callout -->
+                        <div class="bg-surface-container-low rounded-lg p-space-sm flex items-start gap-space-sm">
+                            <div
+                                class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary shrink-0">
+                                <span class="material-symbols-outlined text-[18px]">videocam</span>
+                            </div>
+                            <div class="text-on-surface font-body-sm text-body-sm">
+                                <strong class="font-label-sm text-label-sm text-primary block uppercase">Camera View
+                                    Required:</strong>
+                                Clear unobstructed angle showing the red live wire entering the bottom switch terminal
+                                and the screw tightened firmly with zero excess bare conductor showing.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Step 4 -->
+                    <div
+                        class="bg-surface-container-lowest rounded-xl p-space-md md:p-space-lg shadow-sm space-y-space-sm">
+                        <div class="flex flex-wrap items-center justify-between gap-space-xs">
+                            <div class="flex items-center gap-space-sm">
+                                <span
+                                    class="font-headline-sm text-headline-sm bg-primary-container text-on-primary-container px-space-sm py-1 rounded">
+                                    STEP 4
+                                </span>
+                                <h3 class="font-headline-md text-headline-md uppercase text-on-surface">
+                                    Connecting Switch Return Wire to Lamp Holder
+                                </h3>
+                            </div>
+                            <span
+                                class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-space-sm py-0.5 rounded">
+                                Switched Live Loop
+                            </span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface">
+                            Connect the switch return conductor (phase loop) from the top switch terminal through the
+                            conduit or surface pathway to the central pin contact terminal of the batten lamp holder.
+                            Fasten the brass terminal set-screw securely using your 3mm flathead insulated screwdriver.
+                        </p>
+                        <!-- Camera Framing Callout -->
+                        <div class="bg-surface-container-low rounded-lg p-space-sm flex items-start gap-space-sm">
+                            <div
+                                class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary shrink-0">
+                                <span class="material-symbols-outlined text-[18px]">videocam</span>
+                            </div>
+                            <div class="text-on-surface font-body-sm text-body-sm">
+                                <strong class="font-label-sm text-label-sm text-primary block uppercase">Camera View
+                                    Required:</strong>
+                                Top-down view tracking the continuous conductor path from the upper switch terminal
+                                along the mounting board to the lamp holder socket.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Step 5 -->
+                    <div
+                        class="bg-surface-container-lowest rounded-xl p-space-md md:p-space-lg shadow-sm space-y-space-sm">
+                        <div class="flex flex-wrap items-center justify-between gap-space-xs">
+                            <div class="flex items-center gap-space-sm">
+                                <span
+                                    class="font-headline-sm text-headline-sm bg-primary-container text-on-primary-container px-space-sm py-1 rounded">
+                                    STEP 5
+                                </span>
+                                <h3 class="font-headline-md text-headline-md uppercase text-on-surface">
+                                    Terminating Neutral Conductor to Lamp Holder
+                                </h3>
+                            </div>
+                            <span
+                                class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-space-sm py-0.5 rounded">
+                                Neutral Return
+                            </span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface">
+                            Connect the black incoming neutral conductor directly to the outer threaded / bayonet side
+                            terminal of the batten lamp holder. Verify there are no loose stray strands touching the
+                            outer plastic shell or metal bezel. Thread the back dome cap and tighten securely over the
+                            lamp base.
+                        </p>
+                        <!-- Camera Framing Callout -->
+                        <div class="bg-surface-container-low rounded-lg p-space-sm flex items-start gap-space-sm">
+                            <div
+                                class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary shrink-0">
+                                <span class="material-symbols-outlined text-[18px]">videocam</span>
+                            </div>
+                            <div class="text-on-surface font-body-sm text-body-sm">
+                                <strong class="font-label-sm text-label-sm text-primary block uppercase">Camera View
+                                    Required:</strong>
+                                Close-up view of the interior lamp terminal block showing tight clamp on the neutral
+                                wire with zero strand slippage before closing holder dome.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Step 6: SAFETY CRITICAL -->
+                    <div
+                        class="bg-surface-container-lowest rounded-xl p-space-md md:p-space-lg shadow-sm space-y-space-sm">
+                        <div class="flex flex-wrap items-center justify-between gap-space-xs">
+                            <div class="flex items-center gap-space-sm">
+                                <span
+                                    class="font-headline-sm text-headline-sm bg-tertiary text-on-tertiary px-space-sm py-1 rounded"
+                                    style="background-color: rgb(209, 18, 10); color: rgb(255, 255, 255);">
+                                    STEP 6
+                                </span>
+                                <h3 class="font-headline-md text-headline-md uppercase text-on-surface">
+                                    Dead Circuit Continuity &amp; Insulation Resistance Test
+                                </h3>
+                            </div>
+                            <!-- Safety Badge -->
+                            <span
+                                class="font-label-sm text-label-sm uppercase px-space-sm py-1 rounded flex items-center gap-1 shadow-sm font-semibold"
+                                style="background-color: rgb(209, 18, 10); color: rgb(255, 255, 255);"><span
+                                    class="material-symbols-outlined text-[16px]"
+                                    style="font-variation-settings: 'FILL' 1;">warning</span>Safety-critical</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface">
+                            <strong>Before any mains power is applied, perform dead-circuit testing.</strong> Set your
+                            digital multimeter to continuity/resistance mode (Ω). Verify the switch operation:
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+                            <div class="bg-surface-container-low p-space-sm rounded">
+                                <span class="font-label-md text-label-md text-on-surface block">Switch in OPEN
+                                    position:</span>
+                                <span class="font-body-sm text-body-sm text-on-surface-variant">Resistance between
+                                    supply Phase &amp; lamp terminal must read <strong>OL (Infinite
+                                        ohms)</strong>.</span>
+                            </div>
+                            <div class="bg-surface-container-low p-space-sm rounded">
+                                <span class="font-label-md text-label-md text-on-surface block">Switch in CLOSED
+                                    position:</span>
+                                <span class="font-body-sm text-body-sm text-on-surface-variant">Resistance between
+                                    supply Phase &amp; lamp center pin must read <strong>&lt; 0.5 Ω</strong> with
+                                    audible continuity beep.</span>
+                            </div>
+                        </div>
+                        <!-- Camera Framing Callout -->
+                        <div class="bg-surface-container-low rounded-lg p-space-sm flex items-start gap-space-sm">
+                            <div
+                                class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary shrink-0">
+                                <span class="material-symbols-outlined text-[18px]">videocam</span>
+                            </div>
+                            <div class="text-on-surface font-body-sm text-body-sm">
+                                <strong class="font-label-sm text-label-sm text-primary block uppercase">Camera View
+                                    Required:</strong>
+                                Stable bench view displaying both multimeter test probes placed firmly on terminals and
+                                the digital display readout clearly visible to camera during switch toggle.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Trainer Validation Guarantee Notice -->
+                <div class="bg-surface-container p-space-md rounded-xl text-center space-y-space-xs">
+                    <div class="flex items-center justify-center gap-space-xs text-primary font-label-md text-label-md">
+                        <span class="material-symbols-outlined text-[20px]">assignment_turned_in</span>
+                        <span>Standard Vocational Assessment Regulation</span>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant max-w-2xl mx-auto">
+                        Reviewed and confirmed by certified instructor. Technical safety checks must be validated on
+                        physical equipment. Automated analysis flags initial compliance, but human instructor
+                        endorsement is mandatory for certified module credit.
+                    </p>
+                </div>
+                <!-- Sticky Docked Bottom Action Bar -->
+                <div
+                    class="sticky bottom-0 z-40 bg-surface-container-lowest p-space-md rounded-xl shadow-lg mt-space-lg">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-space-md">
+                        <div class="flex items-center gap-space-sm w-full md:w-auto">
+                            <div
+                                class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container shrink-0">
+                                <span class="material-symbols-outlined text-[20px]">videocam</span>
+                            </div>
+                            <div>
+                                <div class="font-label-md text-label-md text-on-surface">Ready at Workbench Lab B-04
+                                </div>
+                                <div class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+                                    <span class="w-2 h-2 rounded-full bg-tertiary inline-block animate-pulse"></span>
+                                    Video must record continuously without editing cuts
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-space-sm w-full md:w-auto justify-end">
+                            <button
+                                class="h-12 px-space-md rounded bg-surface-container-lowest text-on-surface font-label-md text-label-md hover:bg-surface-container flex items-center justify-center gap-1 transition-colors min-h-[44px]"
+                                type="button">
+                                <span class="material-symbols-outlined text-[18px]">save</span>
+                                <span>Save Progress</span>
+                            </button>
+                            <a class="h-12 px-space-lg rounded bg-primary-container text-on-primary-container font-label-md text-label-md hover:opacity-95 flex items-center justify-center gap-space-xs shadow-sm transition-opacity min-h-[44px] w-full sm:w-auto"
+                                href="#"
+                                style="background-color: rgb(145, 181, 229); color: rgb(27, 36, 48); font-weight: 600;">
+                                <span class="material-symbols-outlined text-[20px]">fiber_manual_record</span>
+                                <span>Record and Upload Practice →</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                // Micro-interaction: checklist counter updates
+                document.addEventListener('DOMContentLoaded', () => {
+                    const toolCheckboxes = document.querySelectorAll('.tool-item');
+                    const materialCheckboxes = document.querySelectorAll('.material-item');
+                    const toolsCounter = document.getElementById('tools-counter');
+                    const materialsCounter = document.getElementById('materials-counter');
+
+                    function updateCounts() {
+                        const checkedTools = document.querySelectorAll('.tool-item:checked').length;
+                        const totalTools = toolCheckboxes.length;
+                        if (toolsCounter) {
+                            toolsCounter.textContent = `${checkedTools} / ${totalTools} ready`;
+                            if (checkedTools === totalTools) {
+                                toolsCounter.classList.add('text-primary');
+                                toolsCounter.classList.add('font-label-sm');
+                            } else {
+                                toolsCounter.classList.remove('text-primary');
+                            }
+                        }
+
+                        const checkedMaterials = document.querySelectorAll('.material-item:checked').length;
+                        const totalMaterials = materialCheckboxes.length;
+                        if (materialsCounter) {
+                            materialsCounter.textContent = `${checkedMaterials} / ${totalMaterials} ready`;
+                            if (checkedMaterials === totalMaterials) {
+                                materialsCounter.classList.add('text-primary');
+                                materialsCounter.classList.add('font-label-sm');
+                            } else {
+                                materialsCounter.classList.remove('text-primary');
+                            }
+                        }
+                    }
+
+                    toolCheckboxes.forEach(cb => cb.addEventListener('change', updateCounts));
+                    materialCheckboxes.forEach(cb => cb.addEventListener('change', updateCounts));
+                    updateCounts();
+                });
+            </script>
+        </div>
+    </main>
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface-container-lowest shadow-[0_-2px_8px_rgba(0,0,0,0.06)] z-50 flex items-center justify-around px-space-xs"
+        data-active-classes="bg-primary-container text-on-primary-container font-label-sm"><a
+            class="flex flex-col items-center justify-center w-16 h-12 rounded text-on-surface-variant transition-colors"
+            data-path="home" href="#"><span class="material-symbols-outlined text-[20px]">home</span><span
+                class="font-label-sm text-label-sm">Home</span></a><a
+            class="flex flex-col items-center justify-center w-16 h-12 rounded text-on-surface-variant transition-colors"
+            data-path="procedures" href="#"><span class="material-symbols-outlined text-[20px]">menu_book</span><span
+                class="font-label-sm text-label-sm">Procedures</span></a><a
+            class="flex flex-col items-center justify-center w-16 h-12 rounded text-on-surface-variant transition-colors"
+            data-path="progress" href="#"><span class="material-symbols-outlined text-[20px]">analytics</span><span
+                class="font-label-sm text-label-sm">Progress</span></a><a
+            class="flex flex-col items-center justify-center w-16 h-12 rounded text-on-surface-variant transition-colors"
+            data-path="profile" href="#"><span class="material-symbols-outlined text-[20px]">account_circle</span><span
+                class="font-label-sm text-label-sm">Profile</span></a></nav>
+    <footer class="hidden md:block w-full bg-surface-container-low py-space-lg shadow-[0_-1px_4px_rgba(0,0,0,0.03)]">
+        <div
+            class="max-w-7xl mx-auto px-margin md:px-gutter-md flex flex-col sm:flex-row items-center justify-between gap-space-md">
+            <div class="flex items-center gap-space-sm">
+                <div
+                    class="w-6 h-6 rounded bg-primary-container flex items-center justify-center text-on-primary-container">
+                    <span class="material-symbols-outlined text-[16px]">bolt</span></div><span
+                    class="font-headline-sm text-headline-sm uppercase text-on-surface">HUNAR</span><span
+                    class="text-outline font-body-sm text-body-sm ml-2">| National ITI Skill Standard Curriculum</span>
+            </div>
+            <div class="text-on-surface-variant font-body-sm text-body-sm text-center sm:text-right">Human instructor
+                verification required for live circuit certification. © 2024 HUNAR.</div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

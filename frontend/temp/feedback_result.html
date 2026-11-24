@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="web_standard" name="shell-type">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Oswald:wght@500;600;700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        @layer base {
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                overscroll-behavior: none;
+            }
+
+            main>:first-child {
+                margin-top: 0 !important;
+            }
+
+            main>:last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+        id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container": "#f4eddc", "tertiary-container": "#ff9686", "on-primary-fixed": "#001c37", "secondary-container": "#91baff", "error-container": "#ffdad6", "on-tertiary-fixed-variant": "#930000", "outline-variant": "#c3c6d0", "surface-bright": "#fff9ec", "on-secondary-fixed-variant": "#144684", "on-error": "#ffffff", "primary": "#3c608b", "secondary": "#335f9d", "surface-dim": "#e0dac8", "surface-tint": "#3c608b", "on-tertiary-container": "#900000", "tertiary": "#c00001", "secondary-fixed": "#d6e3ff", "on-error-container": "#93000a", "tertiary-fixed-dim": "#ffb4a8", "on-surface-variant": "#43474e", "primary-fixed": "#d2e4ff", "inverse-on-surface": "#f7f0de", "surface-container-low": "#faf3e1", "on-tertiary": "#ffffff", "outline": "#73777f", "surface-container-lowest": "#ffffff", "on-background": "#1e1c11", "surface": "#fff9ec", "primary-container": "#91b5e5", "on-primary": "#ffffff", "tertiary-fixed": "#ffdad4", "inverse-surface": "#333025", "on-primary-container": "#1f4670", "on-primary-fixed-variant": "#214872", "surface-container-highest": "#e9e2d0", "on-secondary-container": "#184987", "on-secondary": "#ffffff", "primary-fixed-dim": "#a5c9fa", "on-surface": "#1e1c11", "on-tertiary-fixed": "#410000", "background": "#fff9ec", "on-secondary-fixed": "#001b3d", "error": "#ba1a1a", "surface-container-high": "#efe8d6", "inverse-primary": "#a5c9fa", "secondary-fixed-dim": "#a9c7ff", "surface-variant": "#e9e2d0" }, borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" }, spacing: { "gutter-md": "1.5rem", gutter: "1rem", "margin-md": "2rem", "space-lg": "1.5rem", "space-xl": "2.5rem", margin: "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-md": "1rem" }, fontFamily: { "body-lg": ["Inter"], "headline-lg": ["Oswald"], "body-md": ["Inter"], "label-sm": ["Inter"], "label-md": ["Inter"], "body-sm": ["Inter"], display: ["Oswald"], "headline-sm": ["Oswald"], "headline-lg-mobile": ["Oswald"], "label-lg": ["Inter"], "headline-md": ["Oswald"] }, fontSize: { "body-lg": ["1.125rem", { lineHeight: "1.75rem", fontWeight: "400" }], "headline-lg": ["2rem", { lineHeight: "2.5rem", fontWeight: "700" }], "body-md": ["1rem", { lineHeight: "1.5rem", fontWeight: "400" }], "label-sm": ["0.75rem", { lineHeight: "1rem", fontWeight: "600" }], "label-md": ["0.875rem", { lineHeight: "1.25rem", fontWeight: "600" }], "body-sm": ["0.875rem", { lineHeight: "1.375rem", fontWeight: "400" }], display: ["2.75rem", { lineHeight: "3rem", fontWeight: "700" }], "headline-sm": ["1.25rem", { lineHeight: "1.75rem", fontWeight: "600" }], "headline-lg-mobile": ["1.75rem", { lineHeight: "2.25rem", fontWeight: "700" }], "label-lg": ["1rem", { lineHeight: "1.5rem", fontWeight: "600" }], "headline-md": ["1.5rem", { lineHeight: "2rem", fontWeight: "600" }] } } } };</script>
+</head>
+
+<body class="bg-surface font-body-md text-on-surface antialiased">
+    <header
+        class="fixed top-0 left-0 right-0 w-full z-50 bg-surface/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+        <div class="h-16 max-w-7xl mx-auto px-margin md:px-gutter-md flex items-center justify-between gap-space-md">
+            <div class="flex items-center gap-space-md">
+                <div class="flex items-center gap-space-sm">
+                    <div
+                        class="w-9 h-9 rounded bg-primary-container flex items-center justify-center text-on-primary-container shadow-sm">
+                        <span class="material-symbols-outlined text-[20px]">bolt</span></div><span
+                        class="font-headline-md text-headline-md tracking-tight text-on-surface uppercase">HUNAR</span>
+                </div><span
+                    class="hidden sm:inline-flex items-center px-space-sm py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm border border-outline-variant/40"><span
+                        class="material-symbols-outlined text-[14px] mr-1 text-primary">verified</span>ITI Certified
+                    Platform</span>
+            </div>
+            <nav class="hidden md:flex items-center gap-space-sm"
+                data-active-classes="bg-primary-container text-on-primary-container font-label-md text-label-md rounded px-space-md py-space-sm">
+                <a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-space-md py-space-sm rounded transition-colors"
+                    data-path="home" href="#">Home</a><a
+                    class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-space-md py-space-sm rounded transition-colors"
+                    data-path="procedures" href="#">Procedures</a><a
+                    class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-space-md py-space-sm rounded transition-colors"
+                    data-path="progress" href="#">Progress</a><a
+                    class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-space-md py-space-sm rounded transition-colors"
+                    data-path="profile" href="#">Profile</a></nav>
+            <div class="flex items-center gap-space-md">
+                <div class="hidden lg:flex flex-col text-right"><span
+                        class="font-label-sm text-label-sm text-on-surface">Ramesh Sharma (ITI-EL-402)</span><span
+                        class="font-body-sm text-body-sm text-on-surface-variant text-xs">Batch 2024 •
+                        Electrician</span></div>
+                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span
+                        class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+            </div>
+        </div>
+    </header>
+    <main class="w-full pt-16 pb-20 md:pb-space-xl bg-surface">
+        <div class="flex flex-col w-full">
+            <div class="max-w-7xl mx-auto w-full px-margin md:px-gutter-md space-y-space-md py-space-md">
+                <!-- Top Navigation / Context Strip -->
+                <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+                    <a class="inline-flex items-center gap-space-xs font-label-md text-label-md text-secondary hover:text-on-surface transition-colors min-h-[44px]"
+                        href="#">
+                        <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                        <span>Back to Procedures</span>
+                    </a>
+                    <div
+                        class="flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase bg-surface-container-high px-space-md py-1.5 rounded">
+                        <span class="material-symbols-outlined text-[16px] text-primary">engineering</span>
+                        <span>Trade: Electrician • Semester 1 • Module 3 • Practical #04</span>
+                    </div>
+                </div>
+                <!-- Header & Meta Bento -->
+                <section
+                    class="bg-surface-container-lowest p-space-md md:p-space-lg rounded-xl shadow-sm space-y-space-md">
+                    <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-space-md">
+                        <div class="space-y-space-xs">
+                            <div
+                                class="inline-flex items-center gap-space-xs px-space-sm py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+                                <span class="material-symbols-outlined text-[14px]">terminal</span>
+                                <span>NATIONAL ITI SKILL RECORD: NCVT-ELE-2024</span>
+                            </div>
+                            <h1 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-tight">
+                                Practice Submission Feedback
+                            </h1>
+                            <p class="font-body-lg text-body-lg text-secondary font-medium">
+                                PROC-ELEC-01: Single-pole switch controlling a batten lamp
+                            </p>
+                        </div>
+                        <!-- Submission Status Chip -->
+                        <div
+                            class="inline-flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container-high text-on-surface">
+                            <span class="relative flex h-3 w-3">
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-tertiary"></span>
+                            </span>
+                            <div class="flex flex-col">
+                                <span
+                                    class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Evaluation
+                                    State</span>
+                                <span class="font-label-md text-label-md text-on-surface">Scored • Awaiting Trainer
+                                    Sign-Off</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Metadata Mosaic Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-space-sm pt-space-xs">
+                        <div class="bg-surface-container-low p-space-sm rounded flex flex-col">
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Submission
+                                Reference</span>
+                            <span
+                                class="font-headline-sm text-headline-sm text-on-surface mt-0.5">SUB-2024-0814-042</span>
+                        </div>
+                        <div class="bg-surface-container-low p-space-sm rounded flex flex-col">
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Submitted Date &amp;
+                                Time</span>
+                            <span class="font-label-md text-label-md text-on-surface mt-0.5">14 Aug 2024, 02:45
+                                PM</span>
+                        </div>
+                        <div class="bg-surface-container-low p-space-sm rounded flex flex-col">
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Workshop Bay</span>
+                            <span class="font-label-md text-label-md text-on-surface mt-0.5">Workbench Lab B-04</span>
+                        </div>
+                        <div class="bg-surface-container-low p-space-sm rounded flex flex-col">
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Bench Recording</span>
+                            <span class="font-label-md text-label-md text-on-surface mt-0.5">Attempt #2 (04:12
+                                runtime)</span>
+                        </div>
+                    </div>
+                </section>
+                <!-- Overall Outcome Banner -->
+                <section
+                    class="bg-surface-container-lowest border-l-4 border-[#D1120A] p-space-md md:p-space-lg rounded-xl shadow-sm text-on-surface">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+                        <div class="flex items-start gap-space-md">
+                            <div
+                                class="w-12 h-12 rounded-lg bg-[#D1120A] flex items-center justify-center text-on-primary shrink-0 shadow-sm">
+                                <span class="material-symbols-outlined text-[28px]"
+                                    style="font-variation-settings: 'FILL' 1;">warning</span></div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-space-xs flex-wrap"><span
+                                        class="font-headline-md text-headline-md uppercase tracking-tight text-[#D1120A]">Not
+                                        Yet Competent • 1 Safety Issue Detected</span><span
+                                        class="bg-[#D1120A] text-on-primary px-space-xs py-0.5 rounded font-label-sm text-label-sm uppercase font-bold tracking-wider">Action
+                                        Required</span></div>
+                                <p class="font-body-md text-body-md text-on-surface max-w-3xl">Phase conductor
+                                    termination verified with bare copper conductor clearance concern at Step 3.
+                                    Physical trainer verification is strictly required prior to bench circuit
+                                    energization.</p>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-surface-container-low px-space-md py-space-sm rounded-lg flex items-center gap-space-md shrink-0">
+                            <div class="flex flex-col text-center"><span
+                                    class="font-headline-md text-headline-md text-primary">4 / 6</span><span
+                                    class="font-label-sm text-label-sm text-on-surface-variant uppercase">Passed</span>
+                            </div>
+                            <div class="w-px h-8 bg-outline-variant/60"></div>
+                            <div class="flex flex-col text-center"><span
+                                    class="font-headline-md text-headline-md text-[#D1120A]">1</span><span
+                                    class="font-label-sm text-label-sm text-[#D1120A] uppercase font-bold">Safety
+                                    Alert</span></div>
+                            <div class="w-px h-8 bg-outline-variant/60"></div>
+                            <div class="flex flex-col text-center"><span
+                                    class="font-headline-md text-headline-md text-on-surface-variant">1</span><span
+                                    class="font-label-sm text-label-sm text-on-surface-variant uppercase">Occluded</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Main Diagnostic Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+                    <!-- Step Breakdown (Left 8 cols on desktop) -->
+                    <section class="lg:col-span-8 space-y-space-md">
+                        <div
+                            class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+                            <div>
+                                <h2 class="font-headline-sm text-headline-sm text-on-surface uppercase tracking-wide">
+                                    Step-by-Step Evaluation Breakdown
+                                </h2>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                    Automated computer vision analysis synced to workbench video timeline
+                                </p>
+                            </div>
+                            <span class="font-label-sm text-label-sm text-primary flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[16px]">videocam</span> Synchronized feed
+                            </span>
+                        </div>
+                        <!-- Step List -->
+                        <div class="space-y-space-md">
+                            <!-- Step 1 -->
+                            <article
+                                class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-sm">
+                                <div class="flex flex-wrap items-center justify-between gap-space-sm">
+                                    <div class="flex items-center gap-space-xs">
+                                        <span
+                                            class="font-label-sm text-label-sm px-2 py-0.5 bg-surface-container-highest rounded text-on-surface font-semibold">
+                                            STEP 01
+                                        </span>
+                                        <h3 class="font-label-lg text-label-lg text-on-surface">Mounting the Batten Lamp
+                                            Holder &amp; Switch Box</h3>
+                                    </div>
+                                    <div
+                                        class="inline-flex items-center gap-1 px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">
+                                        <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                        <span>Done correctly</span>
+                                    </div>
+                                </div>
+                                <p class="font-body-md text-body-md text-on-surface-variant">
+                                    Switch box orientation mounted correctly with <span
+                                        class="font-semibold text-on-surface">"TOP"</span> marking upward; rigid
+                                    mechanical attachment confirmed to workbench mounting board.
+                                </p>
+                                <div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs">
+                                    <button
+                                        class="inline-flex items-center gap-1 text-primary hover:text-on-surface font-label-md text-label-md min-h-[44px] px-2 rounded hover:bg-surface-container transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">play_circle</span>
+                                        <span>[00:15 - 00:48] Review Footage</span>
+                                    </button>
+                                    <span
+                                        class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-low px-2 py-1 rounded flex items-center gap-1">
+                                        <span
+                                            class="material-symbols-outlined text-[14px] text-primary">verified_user</span>
+                                        High AI confidence (96%)
+                                    </span>
+                                </div>
+                            </article>
+                            <!-- Step 2 -->
+                            <article
+                                class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-sm">
+                                <div class="flex flex-wrap items-center justify-between gap-space-sm">
+                                    <div class="flex items-center gap-space-xs">
+                                        <span
+                                            class="font-label-sm text-label-sm px-2 py-0.5 bg-surface-container-highest rounded text-on-surface font-semibold">
+                                            STEP 02
+                                        </span>
+                                        <h3 class="font-label-lg text-label-lg text-on-surface">Preparing &amp;
+                                            Stripping Conductor Insulation</h3>
+                                    </div>
+                                    <div
+                                        class="inline-flex items-center gap-1 px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">
+                                        <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                        <span>Done correctly</span>
+                                    </div>
+                                </div>
+                                <p class="font-body-md text-body-md text-on-surface-variant">
+                                    Insulation stripped cleanly to approximately 9mm without nicking or strand reduction
+                                    on the 1.5 sq mm copper wire.
+                                </p>
+                                <div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs">
+                                    <button
+                                        class="inline-flex items-center gap-1 text-primary hover:text-on-surface font-label-md text-label-md min-h-[44px] px-2 rounded hover:bg-surface-container transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">play_circle</span>
+                                        <span>[00:52 - 01:30] Review Footage</span>
+                                    </button>
+                                    <span
+                                        class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-low px-2 py-1 rounded flex items-center gap-1">
+                                        <span
+                                            class="material-symbols-outlined text-[14px] text-primary">verified_user</span>
+                                        High AI confidence (91%)
+                                    </span>
+                                </div>
+                            </article>
+                            <!-- Step 3 (FLAGGED SAFETY-CRITICAL) -->
+                            <article
+                                class="bg-surface-container-lowest border-l-4 border-[#D1120A] rounded-xl p-space-md shadow-sm space-y-space-sm">
+                                <div class="flex flex-wrap items-center justify-between gap-space-sm">
+                                    <div class="flex items-center gap-space-xs flex-wrap"><span
+                                            class="font-label-sm text-label-sm px-2 py-0.5 bg-surface-container-highest rounded text-on-surface font-semibold">STEP
+                                            03</span>
+                                        <h3 class="font-label-lg text-label-lg text-on-surface font-semibold">Phase Wire
+                                            Termination to Switch Terminal</h3><span
+                                            class="bg-[#D1120A] text-on-primary font-label-sm text-label-sm px-2 py-0.5 rounded font-bold inline-flex items-center gap-1"><span
+                                                class="material-symbols-outlined text-[14px]">warning</span>
+                                            Safety-critical</span>
+                                    </div>
+                                    <div
+                                        class="inline-flex items-center gap-1 px-space-sm py-1 rounded bg-error-container text-[#D1120A] font-label-sm text-label-sm font-semibold">
+                                        <span
+                                            class="material-symbols-outlined text-[16px] text-[#D1120A]">warning</span><span>Needs
+                                            attention</span></div>
+                                </div>
+                                <div
+                                    class="bg-surface-container-low border-l-2 border-[#D1120A] p-space-sm rounded-lg text-on-surface space-y-1">
+                                    <div class="font-label-md text-label-md text-[#D1120A] flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[18px]">error</span><span>Insulation
+                                            Gap Exceeds BIS Ceiling Code</span></div>
+                                    <p class="font-body-md text-body-md text-on-surface">Excess bare copper conductor
+                                        (~4mm) exposed beyond terminal boundary; potential short-circuit hazard when
+                                        accessory plate is tightened to the metal back-box.</p>
+                                </div>
+                                <div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs">
+                                    <button
+                                        class="inline-flex items-center gap-1 text-[#D1120A] hover:underline font-label-md text-label-md min-h-[44px] px-2 rounded hover:bg-surface-container transition-colors"><span
+                                            class="material-symbols-outlined text-[18px]">play_circle</span><span>[01:40
+                                            - 02:15] Review Defect Moment</span></button><span
+                                        class="font-label-sm text-label-sm text-[#D1120A] font-semibold bg-error-container px-2 py-1 rounded flex items-center gap-1"><span
+                                            class="material-symbols-outlined text-[14px]">crisis_alert</span>Keypoint
+                                        detector alert • Queued for Trainer</span></div>
+                            </article>
+                            <!-- Step 4 -->
+                            <article
+                                class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-sm">
+                                <div class="flex flex-wrap items-center justify-between gap-space-sm">
+                                    <div class="flex items-center gap-space-xs">
+                                        <span
+                                            class="font-label-sm text-label-sm px-2 py-0.5 bg-surface-container-highest rounded text-on-surface font-semibold">
+                                            STEP 04
+                                        </span>
+                                        <h3 class="font-label-lg text-label-lg text-on-surface">Connecting Switch Return
+                                            Wire to Lamp Holder</h3>
+                                    </div>
+                                    <div
+                                        class="inline-flex items-center gap-1 px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">
+                                        <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                        <span>Done correctly</span>
+                                    </div>
+                                </div>
+                                <p class="font-body-md text-body-md text-on-surface-variant">
+                                    Conductor routed securely through surface casing/capping channel directly into the
+                                    designated switch terminal without sharp bends.
+                                </p>
+                                <div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs">
+                                    <button
+                                        class="inline-flex items-center gap-1 text-primary hover:text-on-surface font-label-md text-label-md min-h-[44px] px-2 rounded hover:bg-surface-container transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">play_circle</span>
+                                        <span>[02:20 - 03:05] Review Footage</span>
+                                    </button>
+                                    <span
+                                        class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-low px-2 py-1 rounded flex items-center gap-1">
+                                        <span
+                                            class="material-symbols-outlined text-[14px] text-primary">verified_user</span>
+                                        Moderate AI confidence (84%)
+                                    </span>
+                                </div>
+                            </article>
+                            <!-- Step 5 (OCCLUDED/LOW CONFIDENCE) -->
+                            <article
+                                class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-sm">
+                                <div class="flex flex-wrap items-center justify-between gap-space-sm">
+                                    <div class="flex items-center gap-space-xs">
+                                        <span
+                                            class="font-label-sm text-label-sm px-2 py-0.5 bg-surface-container-highest rounded text-on-surface font-semibold">
+                                            STEP 05
+                                        </span>
+                                        <h3 class="font-label-lg text-label-lg text-on-surface">Terminating Neutral
+                                            Conductor to Lamp Holder</h3>
+                                    </div>
+                                    <div
+                                        class="inline-flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm">
+                                        <span class="material-symbols-outlined text-[16px]">help</span>
+                                        <span>Could not be checked</span>
+                                    </div>
+                                </div>
+                                <p class="font-body-md text-body-md text-on-surface-variant">
+                                    Terminal screw closure was partially occluded by hand position and body posture in
+                                    the primary camera view angle.
+                                </p>
+                                <div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs">
+                                    <button
+                                        class="inline-flex items-center gap-1 text-primary hover:text-on-surface font-label-md text-label-md min-h-[44px] px-2 rounded hover:bg-surface-container transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">play_circle</span>
+                                        <span>[03:10 - 03:40] Inspect Camera Angle</span>
+                                    </button>
+                                    <span
+                                        class="font-label-sm text-label-sm text-on-surface bg-surface-container-high px-2 py-1 rounded flex items-center gap-1">
+                                        <span
+                                            class="material-symbols-outlined text-[14px] text-secondary">visibility_off</span>
+                                        Low confidence: trainer will check on physical equipment
+                                    </span>
+                                </div>
+                            </article>
+                            <!-- Step 6 (SAFETY-CRITICAL & PASSED) -->
+                            <article
+                                class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-sm">
+                                <div class="flex flex-wrap items-center justify-between gap-space-sm">
+                                    <div class="flex items-center gap-space-xs flex-wrap">
+                                        <span
+                                            class="bg-[#D1120A] text-on-primary font-label-sm text-label-sm px-2 py-0.5 rounded font-bold inline-flex items-center gap-1"><span
+                                                class="material-symbols-outlined text-[14px]">warning</span>
+                                            Safety-critical</span>
+                                        <h3 class="font-label-lg text-label-lg text-on-surface">Dead Circuit Continuity
+                                            &amp; Insulation Resistance Test</h3>
+                                        <span
+                                            class="bg-[#D1120A] text-on-primary font-label-sm text-label-sm px-2 py-0.5 rounded font-bold inline-flex items-center gap-1"><span
+                                                class="material-symbols-outlined text-[14px]">warning</span>
+                                            Safety-critical</span>
+                                    </div>
+                                    <div
+                                        class="inline-flex items-center gap-1 px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">
+                                        <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                        <span>Done correctly</span>
+                                    </div>
+                                </div>
+                                <p class="font-body-md text-body-md text-on-surface-variant">
+                                    Multimeter test probe contact held steady for 2.4s; switch open showed OL (Infinity)
+                                    and closed showed 0.3 Ω. Proper dead-testing protocol followed.
+                                </p>
+                                <div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs">
+                                    <button
+                                        class="inline-flex items-center gap-1 text-primary hover:text-on-surface font-label-md text-label-md min-h-[44px] px-2 rounded hover:bg-surface-container transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">play_circle</span>
+                                        <span>[03:45 - 04:10] Review Footage</span>
+                                    </button>
+                                    <span
+                                        class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-low px-2 py-1 rounded flex items-center gap-1">
+                                        <span
+                                            class="material-symbols-outlined text-[14px] text-primary">verified_user</span>
+                                        High AI confidence (94%)
+                                    </span>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+                    <!-- Trainer / Inspection Sidebar (Right 4 cols on desktop) -->
+                    <aside class="lg:col-span-4 space-y-space-md">
+                        <!-- Bench Video Preview Card with Checkpoint Link -->
+                        <div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-sm">
+                            <div class="flex items-center justify-between">
+                                <span class="font-label-md text-label-md text-on-surface uppercase">Workbench
+                                    Feed</span>
+                                <span
+                                    class="font-label-sm text-label-sm text-tertiary font-bold flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[14px]">videocam</span> 1080p Recorded
+                                </span>
+                            </div>
+                            <div
+                                class="relative w-full aspect-video bg-surface-container-highest rounded-lg overflow-hidden flex items-center justify-center group cursor-pointer">
+                                <img class="object-cover w-full h-full"
+                                    data-alt="Technical workbench scene in an industrial vocational ITI training workshop, a student electrician wireman assembling a single-pole switch and lamp holder board, clear copper wiring, neutral and earth cables, workshop tools and multimeter laid out, natural overhead workshop lighting."
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcobTYc278uzQsOflM0Af75LQPd1PaC1NqSjCzbF5R80RAhlxJZChP20f0rQS8KUDb3tYaJfoSzvnxsRMIWqr0E4VPtyMdocXxVm2dznQ0RsU48MWopqaYDcKE0ywW2dd0V14F1mSfiDLrVWnaSgew3tpAQ7IPkYz3wy4ulZemeEOBCDiK4oBgUB-2OHDQMwKCrn4YvEauw6xW99fceN_iO4860pznPCMDu5HAZk44">
+                                <div
+                                    class="absolute inset-0 bg-inverse-surface/40 flex items-center justify-center group-hover:bg-inverse-surface/30 transition-colors">
+                                    <div
+                                        class="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary shadow-md">
+                                        <span class="material-symbols-outlined text-[28px] ml-0.5">play_arrow</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="absolute bottom-2 left-2 right-2 flex justify-between items-center text-surface-bright text-xs px-2 py-1 rounded bg-inverse-surface/70 font-mono">
+                                    <span>01:42 / 04:12</span>
+                                    <span class="text-tertiary-container font-semibold">Flag at 01:40</span>
+                                </div>
+                            </div>
+                            <a class="inline-flex items-center justify-center gap-space-xs w-full py-space-sm px-space-md rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md min-h-[44px] transition-colors"
+                                href="#">
+                                <span class="material-symbols-outlined text-[18px]">slow_motion_video</span>
+                                <span>Watch Recorded Video with Checkpoints (04:12)</span>
+                            </a>
+                        </div>
+                        <!-- Trainer Comments & Sign-off State -->
+                        <div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-md">
+                            <div class="border-b border-surface-container pb-space-sm">
+                                <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase tracking-wide">
+                                    Trainer Comments &amp; Verification
+                                </h3>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                    Physical inspection log from your batch instructor
+                                </p>
+                            </div>
+                            <!-- Pending State Box -->
+                            <div class="bg-surface-container-low p-space-md rounded-lg space-y-space-sm">
+                                <div class="flex items-center gap-space-xs text-on-surface font-label-md text-label-md">
+                                    <span
+                                        class="material-symbols-outlined text-primary text-[20px]">hourglass_top</span>
+                                    <span>Review Pending in Workshop</span>
+                                </div>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                                    No trainer comments logged yet. This submission is staged in your workshop
+                                    instructor's review queue. Physical bench verification will be conducted and marked
+                                    during your next scheduled lab session.
+                                </p>
+                            </div>
+                            <!-- Assigned Instructor Chip -->
+                            <div class="flex items-center gap-space-sm p-space-sm bg-surface-container rounded-lg">
+                                <div
+                                    class="w-10 h-10 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-headline-sm shrink-0">
+                                    SS
+                                </div>
+                                <div class="flex flex-col min-w-0">
+                                    <span class="font-label-sm text-label-sm text-on-surface-variant">Assigned Lead
+                                        Trainer</span>
+                                    <span class="font-label-md text-label-md text-on-surface truncate">Shri S.
+                                        Sharma</span>
+                                    <span
+                                        class="font-body-sm text-body-sm text-xs text-on-surface-variant truncate">Master
+                                        Electrician • Delhi South ITI</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Institutional Authority & Guidance Disclaimer -->
+                        <div
+                            class="bg-surface-container-lowest border-l-4 border-[#D1120A] p-space-md rounded-xl shadow-sm space-y-space-xs">
+                            <div class="flex items-center gap-space-xs text-[#D1120A]"><span
+                                    class="material-symbols-outlined text-[20px]">verified</span><span
+                                    class="font-label-md text-label-md uppercase tracking-wider font-bold text-[#D1120A]">Trainer
+                                    Safety Guarantee</span></div>
+                            <p class="font-body-sm text-body-sm text-on-surface leading-relaxed">⚠️ This feedback is
+                                automated computer vision guidance and is reviewed by your trainer. It provides
+                                preliminary learning cues and does <span
+                                    class="font-semibold text-on-surface">NOT</span> guarantee electrical safety or
+                                certify live circuit energization. Formal qualification requires hands-on physical
+                                verification by a certified ITI instructor.</p>
+                        </div>
+                    </aside>
+                </div>
+                <!-- Action Sticky/Footer Action Bar -->
+                <section
+                    class="bg-surface-container-lowest p-space-md md:p-space-lg rounded-xl shadow-sm flex flex-col sm:flex-row items-center justify-between gap-space-md">
+                    <div class="flex items-center gap-space-sm text-on-surface-variant font-body-sm text-body-sm">
+                        <span class="material-symbols-outlined text-primary text-[20px]">info</span>
+                        <span>Review the safety flag on Step 3 before attempting your next workbench recording.</span>
+                    </div>
+                    <div class="flex items-center gap-space-sm w-full sm:w-auto">
+                        <a class="w-full sm:w-auto min-h-[48px] px-space-lg rounded border border-on-surface text-on-surface font-label-md text-label-md flex items-center justify-center hover:bg-surface-container transition-colors"
+                            href="#">
+                            ← Back to Procedures
+                        </a>
+                        <a class="w-full sm:w-auto min-h-[48px] px-space-xl rounded bg-[#91B5E5] text-[#1B2430] font-label-lg text-label-lg font-bold flex items-center justify-center gap-space-xs hover:bg-primary-fixed-dim transition-colors shadow-sm"
+                            href="#">
+                            <span class="material-symbols-outlined text-[20px]">refresh</span>
+                            <span>Practice Again</span>
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface-container-lowest shadow-[0_-2px_8px_rgba(0,0,0,0.06)] z-50 flex items-center justify-around px-space-xs"
+        data-active-classes="bg-primary-container text-on-primary-container font-label-sm"><a
+            class="flex flex-col items-center justify-center w-16 h-12 rounded text-on-surface-variant transition-colors"
+            data-path="home" href="#"><span class="material-symbols-outlined text-[20px]">home</span><span
+                class="font-label-sm text-label-sm">Home</span></a><a
+            class="flex flex-col items-center justify-center w-16 h-12 rounded text-on-surface-variant transition-colors"
+            data-path="procedures" href="#"><span class="material-symbols-outlined text-[20px]">menu_book</span><span
+                class="font-label-sm text-label-sm">Procedures</span></a><a
+            class="flex flex-col items-center justify-center w-16 h-12 rounded text-on-surface-variant transition-colors"
+            data-path="progress" href="#"><span class="material-symbols-outlined text-[20px]">analytics</span><span
+                class="font-label-sm text-label-sm">Progress</span></a><a
+            class="flex flex-col items-center justify-center w-16 h-12 rounded text-on-surface-variant transition-colors"
+            data-path="profile" href="#"><span class="material-symbols-outlined text-[20px]">account_circle</span><span
+                class="font-label-sm text-label-sm">Profile</span></a></nav>
+    <footer class="hidden md:block w-full bg-surface-container-low py-space-lg shadow-[0_-1px_4px_rgba(0,0,0,0.03)]">
+        <div
+            class="max-w-7xl mx-auto px-margin md:px-gutter-md flex flex-col sm:flex-row items-center justify-between gap-space-md">
+            <div class="flex items-center gap-space-sm">
+                <div
+                    class="w-6 h-6 rounded bg-primary-container flex items-center justify-center text-on-primary-container">
+                    <span class="material-symbols-outlined text-[16px]">bolt</span></div><span
+                    class="font-headline-sm text-headline-sm uppercase text-on-surface">HUNAR</span><span
+                    class="text-outline font-body-sm text-body-sm ml-2">| National ITI Skill Standard Curriculum</span>
+            </div>
+            <div class="text-on-surface-variant font-body-sm text-body-sm text-center sm:text-right">Human instructor
+                verification required for live circuit certification. © 2024 HUNAR.</div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
