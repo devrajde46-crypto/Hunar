@@ -20,7 +20,7 @@ export default function RegisterPage() {
   const [lastName, setLastName] = useState("");
   const [traineeId, setTraineeId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [institutionCode, setInstitutionCode] = useState("DEMO-ITI");
+  const [institutionCode, setInstitutionCode] = useState("");
   const [consentGranted, setConsentGranted] = useState(false);
 
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -32,7 +32,7 @@ export default function RegisterPage() {
     if (!username.trim()) errors.username = "Username is required";
     if (!email.trim() || !email.includes("@")) errors.email = "Valid institutional email is required";
     if (!password || password.length < 8) errors.password = "Password must be at least 8 characters";
-    if (!institutionCode.trim()) errors.institutionCode = "Institution code is required";
+    if (!institutionCode.trim()) errors.institutionCode = "Please enter your institution code. Ask your trainer if you need help finding it.";
     return errors;
   };
 
@@ -201,7 +201,7 @@ export default function RegisterPage() {
                 <FormField
                   label="Institution Code"
                   required
-                  hint="Official code provided by workshop trainer"
+                  hint="Ask your trainer for this code"
                   error={fieldErrors.institutionCode}
                   id="reg-institution-code"
                 >
@@ -209,8 +209,17 @@ export default function RegisterPage() {
                     type="text"
                     required
                     value={institutionCode}
-                    onChange={(e) => setInstitutionCode(e.target.value.toUpperCase())}
-                    placeholder="DEMO-ITI"
+                    onChange={(e) => {
+                      setInstitutionCode(e.target.value.toUpperCase());
+                      if (fieldErrors.institutionCode) {
+                        setFieldErrors((prev) => {
+                          const next = { ...prev };
+                          delete next.institutionCode;
+                          return next;
+                        });
+                      }
+                    }}
+                    placeholder="e.g. ITI-PUSA"
                     className="w-full px-3.5 py-2.5 rounded-lg border border-card-border bg-white text-ink font-mono text-sm uppercase shadow-2xs focus:border-link-blue focus:ring-1 focus:ring-link-blue focus:outline-none"
                   />
                 </FormField>
